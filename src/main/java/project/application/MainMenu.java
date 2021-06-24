@@ -28,22 +28,27 @@ public class MainMenu {
         switch (choice) {
             case "1":
                 cupService.addLiquid(cup);
+                showMainMenu();
                 chooseMenuOption();
                 break;
             case "2":
-                cupService.deleteLiquid();
+                cupService.deleteLiquid(cup);
+                showMainMenu();
                 chooseMenuOption();
                 break;
             case "3":
                 cupService.showLiquidInfo(cup);
+                showMainMenu();
                 chooseMenuOption();
                 break;
             case "4":
                 cupService.changeCup();
+                showMainMenu();
                 chooseMenuOption();
                 break;
             case "5":
                 cupService.saveProgress();
+                showMainMenu();
                 chooseMenuOption();
                 break;
             case "6":
@@ -51,6 +56,7 @@ public class MainMenu {
                 break;
             default:
                 System.out.println("You choose wrong option. Try again.");
+                showMainMenu();
                 chooseMenuOption();
                 break;
         }
