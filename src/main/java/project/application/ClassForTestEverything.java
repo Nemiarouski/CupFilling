@@ -19,5 +19,7 @@ public class ClassForTestEverything {
         for (Liquid l : cup.getLiquid()) {
             System.out.println(l.toString());
         }*/
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.start();
     }
 }

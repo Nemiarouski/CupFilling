@@ -27,7 +27,7 @@ public class MainMenu {
 
         switch (choice) {
             case "1":
-                cupService.addLiquid();
+                cupService.addLiquid(cup);
                 chooseMenuOption();
                 break;
             case "2":
@@ -35,7 +35,7 @@ public class MainMenu {
                 chooseMenuOption();
                 break;
             case "3":
-                cupService.showLiquidInfo();
+                cupService.showLiquidInfo(cup);
                 chooseMenuOption();
                 break;
             case "4":
