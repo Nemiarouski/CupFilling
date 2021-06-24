@@ -1,16 +1,25 @@
 package project.application;
 
+import project.entity.cup.Cup;
+import project.service.CupService;
 import project.utils.Console;
 
 public class MainMenu {
+    Cup cup;
+    CupService cupService = new CupService();
 
-    public void showMenu() {
+    public void printGreeting() {
+        System.out.println("Hello! It's a cup filling program.");
+    }
+
+    public void showMainMenu() {
         System.out.println("Choose the option:");
         System.out.println("1) Add liquid.");
-        System.out.println("2) Remove liquid.");
+        System.out.println("2) Delete liquid.");
         System.out.println("3) Show liquid information.");
         System.out.println("4) Change a cup.");
         System.out.println("5) Save current progress.");
+        System.out.println("6) Exit");
     }
 
     public void chooseMenuOption() {
@@ -18,24 +27,40 @@ public class MainMenu {
 
         switch (choice) {
             case "1":
-                //text1
+                cupService.addLiquid();
+                chooseMenuOption();
                 break;
             case "2":
-                //text2
+                cupService.deleteLiquid();
+                chooseMenuOption();
                 break;
             case "3":
-                //text3
+                cupService.showLiquidInfo();
+                chooseMenuOption();
                 break;
             case "4":
-                //text4
+                cupService.changeCup();
+                chooseMenuOption();
                 break;
             case "5":
-                //text5
+                cupService.saveProgress();
+                chooseMenuOption();
+                break;
+            case "6":
+                System.out.println("Have a good day!");
                 break;
             default:
                 System.out.println("You choose wrong option. Try again.");
                 chooseMenuOption();
                 break;
         }
+    }
+
+    public void start() {
+        printGreeting();
+        cup = cupService.createCup(new ChooseCupType().choose());
+        System.out.println(cup.toString());
+        showMainMenu();
+        chooseMenuOption();
     }
 }

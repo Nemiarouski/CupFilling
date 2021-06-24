@@ -39,4 +39,14 @@ public abstract class Cup {
     }
 
     public abstract int findCapacity();
+
+    @Override
+    public String toString() {
+        return "Cup{" +
+                "width=" + width +
+                ", height=" + height +
+                ", capacity=" + capacity +
+                ", liquid=" + liquid +
+                '}';
+    }
 }

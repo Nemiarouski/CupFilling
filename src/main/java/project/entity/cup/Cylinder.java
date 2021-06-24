@@ -10,4 +10,9 @@ public class Cylinder extends Cup {
     public int findCapacity() {
         return (int) (((getWidth() * getWidth() * Math.PI) / 4) * getHeight());
     }
+
+    @Override
+    public String toString() {
+        return "[Cylinder]: [Capacity]: " + super.getCapacity() + " [Liquid]: " + super.getLiquid();
+    }
 }
