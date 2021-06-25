@@ -1,7 +1,9 @@
 package project.application;
 
+import java.io.UnsupportedEncodingException;
+
 public class ClassForTestEverything {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
 /*        Cup cup = new Cylinder(3, 20);
         Liquid water = new Water(60);
         Liquid cream = new Cream(30);
@@ -14,5 +16,6 @@ public class ClassForTestEverything {
         }*/
         Menu menu = new Menu();
         menu.start();
+
     }
 }

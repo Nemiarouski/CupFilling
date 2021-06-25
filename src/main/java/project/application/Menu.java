@@ -15,7 +15,7 @@ public class Menu {
     LiquidService liquidService = new LiquidService();
 
     public void showMainMenu() {
-        System.out.println("Choose the option:");
+        System.out.println("\nChoose the option:");
         System.out.println("1) Add liquid.");
         System.out.println("2) Delete liquid.");
         System.out.println("3) Show liquid information.");
@@ -34,7 +34,7 @@ public class Menu {
                 chooseMenuOption();
                 break;
             case "2":
-                //cupService.deleteLiquid(cup);
+                deleteLiquid();
                 showMainMenu();
                 chooseMenuOption();
                 break;
@@ -44,7 +44,7 @@ public class Menu {
                 chooseMenuOption();
                 break;
             case "4":
-                //cupService.changeCup();
+                changeCup();
                 showMainMenu();
                 chooseMenuOption();
                 break;
@@ -64,6 +64,12 @@ public class Menu {
         }
     }
 
+    private void changeCup() {
+        Set<Liquid> oldCupLiquid = cup.getLiquid();
+        cup = cupService.createCup();
+        cup.setLiquid(oldCupLiquid);
+    }
+
     public void start() {
         cup = cupService.createCup();
         System.out.println(cup.toString());
@@ -73,25 +79,54 @@ public class Menu {
 
     public void addLiquid() {
         Liquid liquidToAdd = liquidService.createLiquid();
-        Integer tempVolume = liquidToAdd.getVolume();
+        Integer volumeToAdd = liquidToAdd.getVolume();
 
         Set<Liquid> currentLiquid = cup.getLiquid();
 
-        Optional<Liquid> test = currentLiquid.stream()
-                .filter(c -> c.getDensity().equals(liquidToAdd.getDensity()))
-                .findFirst();
-        boolean lol = test.isPresent();
-
-        if (lol) {
-            test.ifPresent(liquid -> liquid.setVolume(liquid.getVolume() + tempVolume));
+        Optional<Liquid> optionalLiquid = currentLiquid.stream()
+                                                       .filter(c -> c.getDensity().equals(liquidToAdd.getDensity()))
+                                                       .findFirst();
+        if (optionalLiquid.isPresent()) {
+            optionalLiquid.ifPresent(liquid -> liquid.setVolume(liquid.getVolume() + volumeToAdd));
         } else {
             currentLiquid.add(liquidToAdd);
         }
         cup.setLiquid(currentLiquid);
     }
 
+    private void deleteLiquid() {
+        //работает, но коряво
+        System.out.println("How much liquid to delete:");
+        Integer volumeToDelete = Integer.valueOf(Console.read());
+
+        Set<Liquid> currentLiquid = cup.getLiquid();
+
+        Optional<Liquid> firstLiquid = currentLiquid.stream().findFirst();
+
+        if(firstLiquid.isPresent() && firstLiquid.get().getVolume() > volumeToDelete) {
+            firstLiquid.get().setVolume(firstLiquid.get().getVolume() - volumeToDelete);
+        } else if (firstLiquid.isPresent() && firstLiquid.get().getVolume() < volumeToDelete) {
+            volumeToDelete = volumeToDelete - firstLiquid.get().getVolume();
+            currentLiquid.remove(firstLiquid.get());
+
+            Optional<Liquid> second = currentLiquid.stream().findFirst();
+            if (second.isPresent()) {
+                second.get().setVolume(second.get().getVolume() - volumeToDelete);
+            }
+        }
+        cup.setLiquid(currentLiquid);
+
+    }
+
     public void showLiquidInfo() {
         cup.getLiquid().forEach(System.out::println);
+
+        cup.getLiquid().stream().max(Comparator.comparing(Liquid::getVolume)).ifPresent(n -> System.out.println("\n[Max liquid]: " + n));
+
+        cup.getLiquid().stream()
+                .map(Liquid::getVolume)
+                .reduce(Integer::sum)
+                .ifPresent(n -> System.out.println("\n[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
     }
 
 
