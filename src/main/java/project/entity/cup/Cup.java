@@ -2,7 +2,7 @@ package project.entity.cup;
 
 import project.entity.liquids.Liquid;
 import project.utils.LiquidComparator;
-
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -34,8 +34,8 @@ public abstract class Cup {
         return liquid;
     }
 
-    public void setLiquid(Liquid liquid) {
-        this.liquid.add(liquid);
+    public void setLiquid(Set<Liquid> liquid) {
+        this.liquid = liquid;
     }
 
     public abstract int findCapacity();

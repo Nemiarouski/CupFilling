@@ -13,6 +13,10 @@ public abstract class Liquid {
         return volume;
     }
 
+    public void setVolume(Integer volume) {
+        this.volume = volume;
+    }
+
     public Integer getDensity() {
         return density;
     }

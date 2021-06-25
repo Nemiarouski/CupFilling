@@ -1,16 +1,18 @@
 package project.application;
 
 import project.entity.cup.Cup;
+import project.entity.liquids.Liquid;
 import project.service.CupService;
+import project.service.LiquidService;
 import project.utils.Console;
+import project.utils.LiquidComparator;
 
-public class MainMenu {
+import java.util.*;
+
+public class Menu {
     Cup cup;
     CupService cupService = new CupService();
-
-    public void printGreeting() {
-        System.out.println("Hello! It's a cup filling program.");
-    }
+    LiquidService liquidService = new LiquidService();
 
     public void showMainMenu() {
         System.out.println("Choose the option:");
@@ -27,27 +29,27 @@ public class MainMenu {
 
         switch (choice) {
             case "1":
-                cupService.addLiquid(cup);
+                addLiquid();
                 showMainMenu();
                 chooseMenuOption();
                 break;
             case "2":
-                cupService.deleteLiquid(cup);
+                //cupService.deleteLiquid(cup);
                 showMainMenu();
                 chooseMenuOption();
                 break;
             case "3":
-                cupService.showLiquidInfo(cup);
+                showLiquidInfo();
                 showMainMenu();
                 chooseMenuOption();
                 break;
             case "4":
-                cupService.changeCup();
+                //cupService.changeCup();
                 showMainMenu();
                 chooseMenuOption();
                 break;
             case "5":
-                cupService.saveProgress();
+                //cupService.saveProgress();
                 showMainMenu();
                 chooseMenuOption();
                 break;
@@ -63,10 +65,45 @@ public class MainMenu {
     }
 
     public void start() {
-        printGreeting();
-        cup = cupService.createCup(new ChooseCupType().choose());
+        cup = cupService.createCup();
         System.out.println(cup.toString());
         showMainMenu();
         chooseMenuOption();
     }
+
+    public void addLiquid() {
+        Liquid liquidToAdd = liquidService.createLiquid();
+        Integer tempVolume = liquidToAdd.getVolume();
+
+        Set<Liquid> currentLiquid = cup.getLiquid();
+
+        Optional<Liquid> test = currentLiquid.stream()
+                .filter(c -> c.getDensity().equals(liquidToAdd.getDensity()))
+                .findFirst();
+        boolean lol = test.isPresent();
+
+        if (lol) {
+            test.ifPresent(liquid -> liquid.setVolume(liquid.getVolume() + tempVolume));
+        } else {
+            currentLiquid.add(liquidToAdd);
+        }
+        cup.setLiquid(currentLiquid);
+    }
+
+    public void showLiquidInfo() {
+        cup.getLiquid().forEach(System.out::println);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

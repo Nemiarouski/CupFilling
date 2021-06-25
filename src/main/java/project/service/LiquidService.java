@@ -3,18 +3,21 @@ package project.service;
 import project.entity.liquidfactory.*;
 import project.entity.liquids.Liquid;
 import project.utils.Console;
-
 import java.util.List;
 
 public class LiquidService {
 
     public Liquid createLiquid() {
-        LiquidFactory liquidFactory = chooseLiquidFactory(chooseLiquid());
-        System.out.println("How much?");
-        return liquidFactory.createLiquid(Integer.valueOf(Console.read()));
+        showLiquidTypes();
+        System.out.println("Which liquid to add?");
+        String typeOfLiquid = chooseLiquid(Console.read());
+        LiquidFactory liquidFactory = chooseLiquidFactory(typeOfLiquid);
+        System.out.println("How much liquid to add?");
+        Integer volumeOfLiquid = Integer.valueOf(Console.read());
+        return liquidFactory.createLiquid(volumeOfLiquid);
     }
 
-    public void showLiquid() {
+    public void showLiquidTypes() {
         System.out.println("1) Water");
         System.out.println("2) Oil");
         System.out.println("3) Petrol");
@@ -22,11 +25,8 @@ public class LiquidService {
         System.out.println("5) Exit");
     }
 
-    public String chooseLiquid() {
-        showLiquid();
-        String choice = Console.read();
-
-        switch (choice) {
+    public String chooseLiquid(String typeOfLiquid) {
+        switch (typeOfLiquid) {
             case "1":
                 System.out.println("You choose Water.");
                 return "Water";
@@ -44,17 +44,16 @@ public class LiquidService {
                 break;
             default:
                 System.out.println("You choose wrong option.");
-                showLiquid();
-                chooseLiquid();
+                createLiquid();
                 break;
         }
         return null;
     }
 
-    public LiquidFactory chooseLiquidFactory(String choice) {
+    public LiquidFactory chooseLiquidFactory(String typeOfLiquid) {
         List<LiquidFactory> factories = List.of(new WaterFactory(), new OilFactory(), new PetrolFactory(), new CreamFactory());
         for (LiquidFactory liquidFactory : factories) {
-            if (liquidFactory.liquidType().equals(choice)) {
+            if (liquidFactory.liquidType().equals(typeOfLiquid)) {
                 return liquidFactory;
             }
         }

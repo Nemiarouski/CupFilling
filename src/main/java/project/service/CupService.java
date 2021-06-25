@@ -4,49 +4,60 @@ import project.entity.cup.Cup;
 import project.entity.cupfactory.CupFactory;
 import project.entity.cupfactory.CylinderFactory;
 import project.entity.cupfactory.ParallelepipedFactory;
-import project.entity.liquids.Liquid;
 import project.utils.Console;
 import java.util.List;
 
 public class CupService {
-    LiquidService liquidService = new LiquidService();
 
-    public Cup createCup(String cupType) {
+    public Cup createCup() {
+        showCupTypes();
+
+        System.out.println("Choose the type of cup:");
+        String typeOfCup = chooseCupType();
+
         System.out.println("Input cup width:");
         Integer width = Integer.valueOf(Console.read());
         System.out.println("Input cup height:");
         Integer height = Integer.valueOf(Console.read());
-        CupFactory cupFactory = chooseCupFactory(cupType);
-        Cup cup = cupFactory.createCup(width, height);
-        return cup;
+
+        CupFactory cupFactory = chooseCupFactory(typeOfCup);
+        return cupFactory.createCup(width, height);
     }
 
-    public void addLiquid(Cup cup) {
-        liquidService.createLiquid();
-    }
-
-    public void deleteLiquid(Cup cup) {
-
-    }
-
-    public void showLiquidInfo(Cup cup) {
-        for (Liquid liquid : cup.getLiquid()) {
-            System.out.println(liquid.toString());
-        }
-    }
-
-    public void changeCup() {
-    }
-
-    public void saveProgress() {
-    }
-
-    public CupFactory chooseCupFactory(String choice) {
+    public CupFactory chooseCupFactory(String typeOfCup) {
         List<CupFactory> factories = List.of(new CylinderFactory(), new ParallelepipedFactory());
         for (CupFactory cupFactory : factories) {
-            if (cupFactory.factoryType().equals(choice)) {
+            if (cupFactory.factoryType().equals(typeOfCup)) {
                 return cupFactory;
             }
+        }
+        return null;
+    }
+
+    public void showCupTypes() {
+        System.out.println("Choose a shape of cup:");
+        System.out.println("1) Cylinder");
+        System.out.println("2) Parallelepiped");
+        System.out.println("3) Exit");
+    }
+
+    public String chooseCupType() {
+        String typeOfCup = Console.read();
+        switch (typeOfCup) {
+            case "1":
+                System.out.println("You choose Cylinder.");
+                return "Cylinder";
+            case "2":
+                System.out.println("You choose Parallelepiped.");
+                return "Parallelepiped";
+            case "3":
+                System.out.println("Have a good day!");
+                break;
+            default:
+                System.out.println("You choose wrong option.");
+                showCupTypes();
+                chooseCupType();
+                break;
         }
         return null;
     }
