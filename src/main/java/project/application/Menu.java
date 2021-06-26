@@ -77,21 +77,37 @@ public class Menu {
         chooseMenuOption();
     }
 
+    public Integer busyCapacity(Set<Liquid> currentLiquid) {
+        Integer generalLiquidInCup = 0;
+        for (Liquid liquid : currentLiquid) {
+            generalLiquidInCup += liquid.getVolume();
+        }
+        return generalLiquidInCup;
+    }
+
     public void addLiquid() {
         Liquid liquidToAdd = liquidService.createLiquid();
         Integer volumeToAdd = liquidToAdd.getVolume();
-
         Set<Liquid> currentLiquid = cup.getLiquid();
+        Integer freeCapacity = cup.getCapacity() - busyCapacity(currentLiquid);
+
+        if (volumeToAdd > freeCapacity) {
+            System.out.println("You choose volume which more than the cup can keep.");
+            volumeToAdd = freeCapacity;
+        }
 
         Optional<Liquid> optionalLiquid = currentLiquid.stream()
-                                                       .filter(c -> c.getDensity().equals(liquidToAdd.getDensity()))
-                                                       .findFirst();
+                .filter(c -> c.getDensity().equals(liquidToAdd.getDensity()))
+                .findFirst();
+
         if (optionalLiquid.isPresent()) {
-            optionalLiquid.ifPresent(liquid -> liquid.setVolume(liquid.getVolume() + volumeToAdd));
+            Integer finalVolumeToAdd = volumeToAdd;
+            optionalLiquid.ifPresent(liquid -> liquid.setVolume(liquid.getVolume() + finalVolumeToAdd));
         } else {
             currentLiquid.add(liquidToAdd);
         }
         cup.setLiquid(currentLiquid);
+
     }
 
     private void deleteLiquid() {
@@ -103,7 +119,7 @@ public class Menu {
 
         Optional<Liquid> firstLiquid = currentLiquid.stream().findFirst();
 
-        if(firstLiquid.isPresent() && firstLiquid.get().getVolume() > volumeToDelete) {
+        if (firstLiquid.isPresent() && firstLiquid.get().getVolume() > volumeToDelete) {
             firstLiquid.get().setVolume(firstLiquid.get().getVolume() - volumeToDelete);
         } else if (firstLiquid.isPresent() && firstLiquid.get().getVolume() < volumeToDelete) {
             volumeToDelete = volumeToDelete - firstLiquid.get().getVolume();
@@ -128,17 +144,6 @@ public class Menu {
                 .reduce(Integer::sum)
                 .ifPresent(n -> System.out.println("\n[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
