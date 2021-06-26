@@ -8,6 +8,7 @@ import project.utils.Console;
 import project.utils.LiquidComparator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Menu {
     Cup cup;
@@ -111,27 +112,26 @@ public class Menu {
     }
 
     private void deleteLiquid() {
-        //работает, но коряво
+        Set<Liquid> currentLiquid = cup.getLiquid();
+
         System.out.println("How much liquid to delete:");
         Integer volumeToDelete = Integer.valueOf(Console.read());
 
-        Set<Liquid> currentLiquid = cup.getLiquid();
+        int i = 0;
+        while (volumeToDelete > 0) {
+            Optional<Liquid> test = currentLiquid.stream().skip(i).findFirst();
 
-        Optional<Liquid> firstLiquid = currentLiquid.stream().findFirst();
-
-        if (firstLiquid.isPresent() && firstLiquid.get().getVolume() > volumeToDelete) {
-            firstLiquid.get().setVolume(firstLiquid.get().getVolume() - volumeToDelete);
-        } else if (firstLiquid.isPresent() && firstLiquid.get().getVolume() < volumeToDelete) {
-            volumeToDelete = volumeToDelete - firstLiquid.get().getVolume();
-            currentLiquid.remove(firstLiquid.get());
-
-            Optional<Liquid> second = currentLiquid.stream().findFirst();
-            if (second.isPresent()) {
-                second.get().setVolume(second.get().getVolume() - volumeToDelete);
+            if (test.isPresent() && test.get().getVolume() > volumeToDelete) {
+                test.get().setVolume(test.get().getVolume() - volumeToDelete);
+                volumeToDelete = 0;
+            } else if (test.isPresent()) {
+                volumeToDelete = volumeToDelete - test.get().getVolume();
+                test.get().setVolume(0);
             }
+            i++;
         }
+        currentLiquid.removeIf(l -> l.getVolume() == 0);
         cup.setLiquid(currentLiquid);
-
     }
 
     public void showLiquidInfo() {
@@ -144,6 +144,4 @@ public class Menu {
                 .reduce(Integer::sum)
                 .ifPresent(n -> System.out.println("\n[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
     }
-
-
 }
