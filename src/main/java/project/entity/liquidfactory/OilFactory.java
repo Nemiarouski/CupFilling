@@ -4,9 +4,10 @@ import project.entity.liquids.Liquid;
 import project.entity.liquids.Oil;
 
 public class OilFactory extends LiquidFactory {
+
     @Override
-    public Liquid createLiquid() {
-        return new Oil();
+    public Liquid createLiquid(int volume) {
+        return new Oil(volume);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class CupService {
         Integer height = Integer.valueOf(Console.read());
 
         CupFactory cupFactory = chooseCupFactory(typeOfCup);
-        Cup cup = cupFactory.createCup();
+        Cup cup = cupFactory.createCup(width, height);
         cup.setWidth(width);
         cup.setHeight(height);
         int capacity = getCapacity(width, height, typeOfCup);

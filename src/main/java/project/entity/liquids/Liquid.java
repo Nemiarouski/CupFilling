@@ -7,6 +7,13 @@ public class Liquid implements Serializable {
     private Integer volume;
     private Integer density;
 
+    public Liquid() {
+    }
+    public Liquid(Integer volume, Integer density) {
+        this.volume = volume;
+        this.density = density;
+    }
+
     public Integer getVolume() {
         return volume;
     }
@@ -25,7 +32,7 @@ public class Liquid implements Serializable {
 
     @Override
     public String toString() {
-        return "[Liquid]: " +
+        return "[Liquid]:" +
                 " [Volume]: " + volume +
                 " cm\u00B3 [Density]: " + density + " кг/m\u00B3";
     }

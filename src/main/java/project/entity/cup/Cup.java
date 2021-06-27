@@ -14,6 +14,18 @@ public class Cup implements Serializable {
     private int capacity;
     private Set<Liquid> liquid = new TreeSet<>(new LiquidComparator());
 
+    public Cup() {}
+
+    public Cup(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.capacity = findCapacity();
+    }
+
+    public int findCapacity() {
+        return 0;
+    }
+
     public int getWidth() {
         return width;
     }

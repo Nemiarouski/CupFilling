@@ -6,8 +6,8 @@ import project.entity.cup.Cylinder;
 public class CylinderFactory extends CupFactory {
 
     @Override
-    public Cup createCup() {
-        return new Cylinder();
+    public Cup createCup(int width, int height) {
+        return new Cylinder(width, height);
     }
 
     @Override
