@@ -5,11 +5,11 @@ public class Oil extends Liquid {
     public Oil() {
     }
     public Oil(Integer volume) {
-        super(volume, 900);
+        super(volume, 900, "Oil");
     }
 
     @Override
     public String toString() {
-        return "[Oil]: [Volume]: " + super.getVolume() + " cm\u00B3 [Density]: " + super.getDensity() + " кг/m\u00B3";
+        return "[" + getType() + "]: [Volume]: " + super.getVolume() + " cm\u00B3 [Density]: " + super.getDensity() + " кг/m\u00B3";
     }
 }
