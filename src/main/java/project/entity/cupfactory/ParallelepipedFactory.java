@@ -6,8 +6,8 @@ import project.entity.cup.Parallelepiped;
 public class ParallelepipedFactory extends CupFactory{
 
     @Override
-    public Cup createCup(Integer width, Integer height) {
-        return new Parallelepiped(width, height);
+    public Cup createCup() {
+        return new Parallelepiped();
     }
 
     @Override

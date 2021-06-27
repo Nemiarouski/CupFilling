@@ -21,7 +21,20 @@ public class CupService {
         Integer height = Integer.valueOf(Console.read());
 
         CupFactory cupFactory = chooseCupFactory(typeOfCup);
-        return cupFactory.createCup(width, height);
+        Cup cup = cupFactory.createCup();
+        cup.setWidth(width);
+        cup.setHeight(height);
+        int capacity = getCapacity(width, height, typeOfCup);
+        cup.setCapacity(capacity);
+        return cup;
+    }
+
+    public int getCapacity(int width, int height, String typeOfCup) {
+        if (typeOfCup.equals("Cylinder")) {
+            return ((width * width) / 4) * height;
+        } else {
+            return width * width * height;
+        }
     }
 
     public CupFactory chooseCupFactory(String typeOfCup) {

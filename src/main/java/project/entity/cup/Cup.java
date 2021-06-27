@@ -2,31 +2,40 @@ package project.entity.cup;
 
 import project.entity.liquids.Liquid;
 import project.utils.LiquidComparator;
+
+import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
-public abstract class Cup {
-    private final int width;
-    private final int height;
-    private final int capacity;
+public class Cup implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private int width;
+    private int height;
+    private int capacity;
     private Set<Liquid> liquid = new TreeSet<>(new LiquidComparator());
-
-    public Cup(int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.capacity = findCapacity();
-    }
 
     public int getWidth() {
         return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
     }
 
     public int getHeight() {
         return height;
     }
 
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public int getCapacity() {
         return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public Set<Liquid> getLiquid() {
@@ -36,8 +45,6 @@ public abstract class Cup {
     public void setLiquid(Set<Liquid> liquid) {
         this.liquid = liquid;
     }
-
-    public abstract int findCapacity();
 
     @Override
     public String toString() {

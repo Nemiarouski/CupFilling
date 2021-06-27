@@ -1,14 +1,15 @@
 package project.application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import project.entity.cup.Cup;
 import project.entity.liquids.Liquid;
 import project.service.CupService;
 import project.service.LiquidService;
 import project.utils.Console;
-import project.utils.LiquidComparator;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Menu {
     Cup cup;
@@ -22,7 +23,8 @@ public class Menu {
         System.out.println("3) Show liquid information.");
         System.out.println("4) Change a cup.");
         System.out.println("5) Save current progress.");
-        System.out.println("6) Exit");
+        System.out.println("6) Download last progress.");
+        System.out.println("7) Exit");
     }
 
     public void chooseMenuOption() {
@@ -50,11 +52,16 @@ public class Menu {
                 chooseMenuOption();
                 break;
             case "5":
-                //cupService.saveProgress();
+                saveTo();
                 showMainMenu();
                 chooseMenuOption();
                 break;
             case "6":
+                downloadFrom();
+                showMainMenu();
+                chooseMenuOption();
+                break;
+            case "7":
                 System.out.println("Have a good day!");
                 break;
             default:
@@ -68,7 +75,34 @@ public class Menu {
     private void changeCup() {
         Set<Liquid> oldCupLiquid = cup.getLiquid();
         cup = cupService.createCup();
-        cup.setLiquid(oldCupLiquid);
+
+        Integer tempCapacity = oldCupLiquid.stream().map(Liquid::getVolume).reduce(Integer::sum).get();
+
+        if (tempCapacity > cup.getCapacity()) {
+            //do something
+        } else {
+            cup.setLiquid(oldCupLiquid);
+        }
+    }
+
+    public void saveTo() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File("target/cup.json"), cup);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void downloadFrom() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Cup cup = objectMapper.readValue(new File("target/cup.json"), Cup.class);
+            System.out.println(cup);
+            this.cup = cup;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void start() {

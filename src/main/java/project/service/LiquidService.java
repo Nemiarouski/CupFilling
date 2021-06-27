@@ -3,6 +3,7 @@ package project.service;
 import project.entity.liquidfactory.*;
 import project.entity.liquids.Liquid;
 import project.utils.Console;
+
 import java.util.List;
 
 public class LiquidService {
@@ -14,7 +15,24 @@ public class LiquidService {
         LiquidFactory liquidFactory = chooseLiquidFactory(typeOfLiquid);
         System.out.println("How much liquid to add?");
         Integer volumeOfLiquid = Integer.valueOf(Console.read());
-        return liquidFactory.createLiquid(volumeOfLiquid);
+        Liquid liquid = liquidFactory.createLiquid();
+        liquid.setVolume(volumeOfLiquid);
+        liquid.setDensity(getDensity(liquidFactory.liquidType()));
+        return liquid;
+    }
+
+    public int getDensity(String type) {
+        switch (type) {
+            case "Cream":
+                return 940;
+            case "Oil":
+                return 900;
+            case "Petrol":
+                return 700;
+            case "Water":
+                return 1000;
+        }
+        return 0;
     }
 
     public void showLiquidTypes() {

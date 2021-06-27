@@ -1,13 +1,11 @@
 package project.entity.liquids;
 
-public abstract class Liquid {
+import java.io.Serializable;
+
+public class Liquid implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer volume;
     private Integer density;
-
-    public Liquid(Integer volume, Integer density) {
-        this.volume = volume;
-        this.density = density;
-    }
 
     public Integer getVolume() {
         return volume;
@@ -21,11 +19,14 @@ public abstract class Liquid {
         return density;
     }
 
+    public void setDensity(Integer density) {
+        this.density = density;
+    }
+
     @Override
     public String toString() {
-        return "Liquid{" +
-                "volume=" + volume +
-                ", density=" + density +
-                '}';
+        return "[Liquid]: " +
+                "[Volume]: " + volume +
+                " cm\u00B3 [Density]: " + density + " кг/m\u00B3";
     }
 }
