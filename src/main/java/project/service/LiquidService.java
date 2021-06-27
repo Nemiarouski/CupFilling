@@ -3,7 +3,6 @@ package project.service;
 import project.entity.liquidfactory.*;
 import project.entity.liquids.Liquid;
 import project.utils.Console;
-
 import java.util.List;
 
 public class LiquidService {
@@ -11,7 +10,7 @@ public class LiquidService {
     public Liquid createLiquid() {
         LiquidFactory liquidFactory = chooseLiquid();
         System.out.println("How much liquid to add?");
-        int volumeOfLiquid = Console.inputNumberValidation(1000);
+        int volumeOfLiquid = Console.inputPositiveNumberValidation();
         return liquidFactory.createLiquid(volumeOfLiquid);
     }
 
@@ -25,7 +24,7 @@ public class LiquidService {
     public LiquidFactory chooseLiquid() {
         showLiquidTypes();
         System.out.println("Which liquid to add?");
-        int typeOfLiquid = Console.inputNumberValidation(4);
+        int typeOfLiquid = Console.inputMenuValidation(4);
 
         switch (typeOfLiquid) {
             case 1:

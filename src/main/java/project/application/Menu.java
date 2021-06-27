@@ -1,16 +1,15 @@
 package project.application;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import project.entity.cup.Cup;
 import project.entity.liquids.Liquid;
 import project.service.CupService;
 import project.service.LiquidService;
 import project.utils.Console;
 import project.utils.LiquidComparator;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Menu {
     Cup cup;
@@ -33,7 +32,7 @@ public class Menu {
 
         while (choice != 7) {
             showMainMenu();
-            choice = Console.inputNumberValidation(7);
+            choice = Console.inputMenuValidation(7);
             switch (choice) {
                 case 1:
                     addLiquid();
@@ -62,9 +61,65 @@ public class Menu {
 
     public void start() {
         cup = cupService.createCup();
-        System.out.println(cup.toString());
-        showMainMenu();
         chooseMenuOption();
+    }
+
+    public void addLiquid() {
+        Liquid liquidToAdd = liquidService.createLiquid();
+        Integer volumeToAdd = liquidToAdd.getVolume();
+        Set<Liquid> currentLiquid = cup.getLiquid();
+        Integer freeCapacity = cup.getCapacity() - busyCapacity(currentLiquid);
+
+        if (volumeToAdd > freeCapacity) {
+            System.out.println("You choose volume which more than the cup can keep.");
+            volumeToAdd = freeCapacity;
+        }
+
+        Optional<Liquid> optionalLiquid = currentLiquid.stream()
+                .filter(c -> c.getDensity().equals(liquidToAdd.getDensity()))
+                .findFirst();
+
+        if (optionalLiquid.isPresent()) {
+            Integer finalVolumeToAdd = volumeToAdd;
+            optionalLiquid.ifPresent(liquid -> liquid.setVolume(liquid.getVolume() + finalVolumeToAdd));
+        } else {
+            currentLiquid.add(liquidToAdd);
+        }
+        cup.setLiquid(currentLiquid);
+    }
+
+    private void deleteLiquid() {
+        Set<Liquid> currentLiquid = cup.getLiquid();
+
+        System.out.println("How much liquid to delete:");
+        Integer volumeToDelete = Console.inputPositiveNumberValidation();
+
+        int i = 0;
+        while (volumeToDelete > 0) {
+            Optional<Liquid> test = currentLiquid.stream().skip(i).findFirst();
+
+            if (test.isPresent() && test.get().getVolume() > volumeToDelete) {
+                test.get().setVolume(test.get().getVolume() - volumeToDelete);
+                volumeToDelete = 0;
+            } else if (test.isPresent()) {
+                volumeToDelete = volumeToDelete - test.get().getVolume();
+                test.get().setVolume(0);
+            }
+            i++;
+        }
+        currentLiquid.removeIf(l -> l.getVolume() == 0);
+        cup.setLiquid(currentLiquid);
+    }
+
+    public void showLiquidInfo() {
+        cup.getLiquid().stream().sorted(Comparator.comparing(Liquid::getDensity)).forEach(System.out::println);
+
+        cup.getLiquid().stream().max(Comparator.comparing(Liquid::getVolume)).ifPresent(n -> System.out.println("\n[Max liquid]: " + n));
+
+        cup.getLiquid().stream()
+                .map(Liquid::getVolume)
+                .reduce(Integer::sum)
+                .ifPresent(n -> System.out.println("\n[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
     }
 
     private void changeCup() {
@@ -103,63 +158,5 @@ public class Menu {
             generalLiquidInCup += liquid.getVolume();
         }
         return generalLiquidInCup;
-    }
-
-    public void addLiquid() {
-        Liquid liquidToAdd = liquidService.createLiquid();
-        Integer volumeToAdd = liquidToAdd.getVolume();
-        Set<Liquid> currentLiquid = cup.getLiquid();
-        Integer freeCapacity = cup.getCapacity() - busyCapacity(currentLiquid);
-
-        if (volumeToAdd > freeCapacity) {
-            System.out.println("You choose volume which more than the cup can keep.");
-            volumeToAdd = freeCapacity;
-        }
-
-        Optional<Liquid> optionalLiquid = currentLiquid.stream()
-                .filter(c -> c.getDensity().equals(liquidToAdd.getDensity()))
-                .findFirst();
-
-        if (optionalLiquid.isPresent()) {
-            Integer finalVolumeToAdd = volumeToAdd;
-            optionalLiquid.ifPresent(liquid -> liquid.setVolume(liquid.getVolume() + finalVolumeToAdd));
-        } else {
-            currentLiquid.add(liquidToAdd);
-        }
-        cup.setLiquid(currentLiquid);
-    }
-
-    private void deleteLiquid() {
-        Set<Liquid> currentLiquid = cup.getLiquid();
-
-        System.out.println("How much liquid to delete:");
-        Integer volumeToDelete = Console.inputNumberValidation(1000);
-
-        int i = 0;
-        while (volumeToDelete > 0) {
-            Optional<Liquid> test = currentLiquid.stream().skip(i).findFirst();
-
-            if (test.isPresent() && test.get().getVolume() > volumeToDelete) {
-                test.get().setVolume(test.get().getVolume() - volumeToDelete);
-                volumeToDelete = 0;
-            } else if (test.isPresent()) {
-                volumeToDelete = volumeToDelete - test.get().getVolume();
-                test.get().setVolume(0);
-            }
-            i++;
-        }
-        currentLiquid.removeIf(l -> l.getVolume() == 0);
-        cup.setLiquid(currentLiquid);
-    }
-
-    public void showLiquidInfo() {
-        cup.getLiquid().stream().sorted(Comparator.comparing(Liquid::getDensity)).forEach(System.out::println);
-
-        cup.getLiquid().stream().max(Comparator.comparing(Liquid::getVolume)).ifPresent(n -> System.out.println("\n[Max liquid]: " + n));
-
-        cup.getLiquid().stream()
-                .map(Liquid::getVolume)
-                .reduce(Integer::sum)
-                .ifPresent(n -> System.out.println("\n[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
     }
 }

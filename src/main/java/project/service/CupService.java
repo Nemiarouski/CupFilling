@@ -6,7 +6,6 @@ import project.entity.cupfactory.CylinderFactory;
 import project.entity.cupfactory.ParallelepipedFactory;
 import project.repository.CupRepository;
 import project.utils.Console;
-
 import java.util.List;
 
 public class CupService {
@@ -16,15 +15,14 @@ public class CupService {
         showCupTypes();
 
         System.out.println("Choose the type of cup:");
-        String typeOfCup = chooseCupType();
+        CupFactory cupFactory = chooseCupType();
 
         System.out.println("Input cup width:");
-        Integer width = Console.inputNumberValidation(100);
+        Integer width = Console.inputPositiveNumberValidation();
 
         System.out.println("Input cup height:");
-        Integer height = Console.inputNumberValidation(100);
+        Integer height = Console.inputPositiveNumberValidation();
 
-        CupFactory cupFactory = chooseCupFactory(typeOfCup);
         return cupFactory.createCup(width, height);
     }
 
@@ -45,15 +43,15 @@ public class CupService {
         System.out.println("3) Exit");
     }
 
-    public String chooseCupType() {
-        int typeOfCup = Console.inputNumberValidation(3);
+    public CupFactory chooseCupType() {
+        int typeOfCup = Console.inputMenuValidation(3);
         switch (typeOfCup) {
             case 1:
                 System.out.println("You choose Cylinder.");
-                return "Cylinder";
+                return chooseCupFactory("Cylinder");
             case 2:
                 System.out.println("You choose Parallelepiped.");
-                return "Parallelepiped";
+                return chooseCupFactory("Parallelepiped");
             case 3:
                 System.out.println("Have a good day!");
                 break;
