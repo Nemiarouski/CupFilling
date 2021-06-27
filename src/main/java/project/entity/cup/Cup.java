@@ -2,7 +2,6 @@ package project.entity.cup;
 
 import project.entity.liquids.Liquid;
 import project.utils.LiquidComparator;
-
 import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
@@ -60,11 +59,10 @@ public class Cup implements Serializable {
 
     @Override
     public String toString() {
-        return "Cup{" +
-                "width=" + width +
-                ", height=" + height +
-                ", capacity=" + capacity +
-                ", liquid=" + liquid +
-                '}';
+        return "[Cup]:" +
+                " [Width]: " + width +
+                " [Height]: " + height +
+                " [Capacity]: " + capacity +
+                " [Liquid]: " + liquid;
     }
 }

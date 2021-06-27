@@ -6,18 +6,11 @@ import project.entity.cupfactory.CylinderFactory;
 import project.entity.cupfactory.ParallelepipedFactory;
 import project.repository.CupRepository;
 import project.utils.Console;
+
 import java.util.List;
 
 public class CupService {
     CupRepository cupRepository = new CupRepository();
-
-    public void save(Cup cup) {
-        cupRepository.saveTo(cup);
-    }
-
-    public Cup download() {
-        return cupRepository.downloadFrom();
-    }
 
     public Cup createCup() {
         showCupTypes();
@@ -26,25 +19,13 @@ public class CupService {
         String typeOfCup = chooseCupType();
 
         System.out.println("Input cup width:");
-        Integer width = Integer.valueOf(Console.read());
+        Integer width = Console.inputNumberValidation(100);
+
         System.out.println("Input cup height:");
-        Integer height = Integer.valueOf(Console.read());
+        Integer height = Console.inputNumberValidation(100);
 
         CupFactory cupFactory = chooseCupFactory(typeOfCup);
-        Cup cup = cupFactory.createCup(width, height);
-        cup.setWidth(width);
-        cup.setHeight(height);
-        int capacity = getCapacity(width, height, typeOfCup);
-        cup.setCapacity(capacity);
-        return cup;
-    }
-
-    public int getCapacity(int width, int height, String typeOfCup) {
-        if (typeOfCup.equals("Cylinder")) {
-            return ((width * width) / 4) * height;
-        } else {
-            return width * width * height;
-        }
+        return cupFactory.createCup(width, height);
     }
 
     public CupFactory chooseCupFactory(String typeOfCup) {
@@ -65,23 +46,26 @@ public class CupService {
     }
 
     public String chooseCupType() {
-        String typeOfCup = Console.read();
+        int typeOfCup = Console.inputNumberValidation(3);
         switch (typeOfCup) {
-            case "1":
+            case 1:
                 System.out.println("You choose Cylinder.");
                 return "Cylinder";
-            case "2":
+            case 2:
                 System.out.println("You choose Parallelepiped.");
                 return "Parallelepiped";
-            case "3":
+            case 3:
                 System.out.println("Have a good day!");
-                break;
-            default:
-                System.out.println("You choose wrong option.");
-                showCupTypes();
-                chooseCupType();
                 break;
         }
         return null;
+    }
+
+    public void save(Cup cup) {
+        cupRepository.saveTo(cup);
+    }
+
+    public Cup download() {
+        return cupRepository.downloadFrom();
     }
 }

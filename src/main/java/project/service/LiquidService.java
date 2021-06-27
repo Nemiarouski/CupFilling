@@ -9,12 +9,9 @@ import java.util.List;
 public class LiquidService {
 
     public Liquid createLiquid() {
-        showLiquidTypes();
-        System.out.println("Which liquid to add?");
-        String typeOfLiquid = chooseLiquid(Console.read());
-        LiquidFactory liquidFactory = chooseLiquidFactory(typeOfLiquid);
+        LiquidFactory liquidFactory = chooseLiquid();
         System.out.println("How much liquid to add?");
-        Integer volumeOfLiquid = Integer.valueOf(Console.read());
+        int volumeOfLiquid = Console.inputNumberValidation(1000);
         return liquidFactory.createLiquid(volumeOfLiquid);
     }
 
@@ -25,24 +22,24 @@ public class LiquidService {
         System.out.println("4) Cream");
     }
 
-    public String chooseLiquid(String typeOfLiquid) {
+    public LiquidFactory chooseLiquid() {
+        showLiquidTypes();
+        System.out.println("Which liquid to add?");
+        int typeOfLiquid = Console.inputNumberValidation(4);
+
         switch (typeOfLiquid) {
-            case "1":
+            case 1:
                 System.out.println("You choose Water.");
-                return "Water";
-            case "2":
+                return chooseLiquidFactory("Water");
+            case 2:
                 System.out.println("You choose Oil.");
-                return "Oil";
-            case "3":
+                return chooseLiquidFactory("Oil");
+            case 3:
                 System.out.println("You choose Petrol.");
-                return "Petrol";
-            case "4":
+                return chooseLiquidFactory("Petrol");
+            case 4:
                 System.out.println("You choose Cream.");
-                return "Cream";
-            default:
-                System.out.println("You choose wrong option.");
-                createLiquid();
-                break;
+                return chooseLiquidFactory("Cream");
         }
         return null;
     }

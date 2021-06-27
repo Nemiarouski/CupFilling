@@ -3,7 +3,22 @@ package project.utils;
 import java.util.Scanner;
 
 public class Console {
+    public static Scanner scanner = new Scanner(System.in);
+
     public static String read() {
-        return new Scanner(System.in).nextLine();
+        return scanner.nextLine();
+    }
+
+    public static Integer inputNumberValidation(int flag) {
+        int temp;
+        do {
+            System.out.println("Input positive number between 1 and " + flag + ":");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Input positive number between 1 and " + flag + ":");
+                scanner.next();
+            }
+            temp = scanner.nextInt();
+        } while (temp <= 0 | temp > flag);
+        return temp;
     }
 }

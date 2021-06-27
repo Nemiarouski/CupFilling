@@ -11,7 +11,7 @@ public class CupRepository {
     public void saveTo(Cup cup) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File("target/cup.json"), cup);
+            objectMapper.writeValue(new File("src/main/resources/cup.json"), cup);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -20,7 +20,7 @@ public class CupRepository {
     public Cup downloadFrom() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(new File("target/cup.json"), Cup.class);
+            return objectMapper.readValue(new File("src/main/resources/cup.json"), Cup.class);
         } catch (IOException e) {
             e.printStackTrace();
         }

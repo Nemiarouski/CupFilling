@@ -29,47 +29,34 @@ public class Menu {
     }
 
     public void chooseMenuOption() {
-        String choice = Console.read();
+        int choice = 0;
 
-        switch (choice) {
-            case "1":
-                addLiquid();
-                showMainMenu();
-                chooseMenuOption();
-                break;
-            case "2":
-                deleteLiquid();
-                showMainMenu();
-                chooseMenuOption();
-                break;
-            case "3":
-                showLiquidInfo();
-                showMainMenu();
-                chooseMenuOption();
-                break;
-            case "4":
-                changeCup();
-                showMainMenu();
-                chooseMenuOption();
-                break;
-            case "5":
-                cupService.save(cup);
-                showMainMenu();
-                chooseMenuOption();
-                break;
-            case "6":
-                cup = cupService.download();
-                showMainMenu();
-                chooseMenuOption();
-                break;
-            case "7":
-                System.out.println("Have a good day!");
-                break;
-            default:
-                System.out.println("You choose wrong option. Try again.");
-                showMainMenu();
-                chooseMenuOption();
-                break;
+        while (choice != 7) {
+            showMainMenu();
+            choice = Console.inputNumberValidation(7);
+            switch (choice) {
+                case 1:
+                    addLiquid();
+                    break;
+                case 2:
+                    deleteLiquid();
+                    break;
+                case 3:
+                    showLiquidInfo();
+                    break;
+                case 4:
+                    changeCup();
+                    break;
+                case 5:
+                    cupService.save(cup);
+                    break;
+                case 6:
+                    cup = cupService.download();
+                    break;
+                case 7:
+                    System.out.println("Have a good day!");
+                    break;
+            }
         }
     }
 
@@ -84,23 +71,23 @@ public class Menu {
         Cup oldCup = cup;
         cup = cupService.createCup();
 
-        Integer oldCapacity = oldCup.getLiquid().stream().map(Liquid::getVolume).reduce(Integer::sum).get();
+        int oldCapacity = oldCup.getLiquid().stream().map(Liquid::getVolume).reduce(Integer::sum).get();
+        int newCapacity = cup.getCapacity();
 
-        if (oldCapacity > cup.getCapacity()) {
+        if (oldCapacity > newCapacity) {
             int i = 0;
-            int something = cup.getCapacity();
             Set<Liquid> testSet = new TreeSet<>(new LiquidComparator());
 
-            while (something > 0) {
+            while (newCapacity > 0) {
                 Optional<Liquid> test = oldCup.getLiquid().stream().skip(i).findFirst();
 
-                if (test.isPresent() && test.get().getVolume() < something) {
-                    something -= test.get().getVolume();
+                if (test.isPresent() && test.get().getVolume() < newCapacity) {
+                    newCapacity -= test.get().getVolume();
                     testSet.add(test.get());
                 } else if (test.isPresent()) {
-                    test.get().setVolume(test.get().getVolume() - (test.get().getVolume() - something));
+                    test.get().setVolume(test.get().getVolume() - (test.get().getVolume() - newCapacity));
                     testSet.add(test.get());
-                    something = 0;
+                    newCapacity = 0;
                 }
                 i++;
             }
@@ -140,14 +127,13 @@ public class Menu {
             currentLiquid.add(liquidToAdd);
         }
         cup.setLiquid(currentLiquid);
-
     }
 
     private void deleteLiquid() {
         Set<Liquid> currentLiquid = cup.getLiquid();
 
         System.out.println("How much liquid to delete:");
-        Integer volumeToDelete = Integer.valueOf(Console.read());
+        Integer volumeToDelete = Console.inputNumberValidation(1000);
 
         int i = 0;
         while (volumeToDelete > 0) {
