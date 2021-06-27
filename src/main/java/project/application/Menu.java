@@ -6,6 +6,7 @@ import project.entity.liquids.Liquid;
 import project.service.CupService;
 import project.service.LiquidService;
 import project.utils.Console;
+import project.utils.LiquidComparator;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,12 +53,12 @@ public class Menu {
                 chooseMenuOption();
                 break;
             case "5":
-                saveTo();
+                cupService.save(cup);
                 showMainMenu();
                 chooseMenuOption();
                 break;
             case "6":
-                downloadFrom();
+                cup = cupService.download();
                 showMainMenu();
                 chooseMenuOption();
                 break;
@@ -72,44 +73,41 @@ public class Menu {
         }
     }
 
-    private void changeCup() {
-        Set<Liquid> oldCupLiquid = cup.getLiquid();
-        cup = cupService.createCup();
-
-        Integer tempCapacity = oldCupLiquid.stream().map(Liquid::getVolume).reduce(Integer::sum).get();
-
-        if (tempCapacity > cup.getCapacity()) {
-            //do something
-        } else {
-            cup.setLiquid(oldCupLiquid);
-        }
-    }
-
-    public void saveTo() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            objectMapper.writeValue(new File("target/cup.json"), cup);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void downloadFrom() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            Cup cup = objectMapper.readValue(new File("target/cup.json"), Cup.class);
-            System.out.println(cup);
-            this.cup = cup;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void start() {
         cup = cupService.createCup();
         System.out.println(cup.toString());
         showMainMenu();
         chooseMenuOption();
+    }
+
+    private void changeCup() {
+        Cup oldCup = cup;
+        cup = cupService.createCup();
+
+        Integer oldCapacity = oldCup.getLiquid().stream().map(Liquid::getVolume).reduce(Integer::sum).get();
+
+        if (oldCapacity > cup.getCapacity()) {
+            int i = 0;
+            int something = cup.getCapacity();
+            Set<Liquid> testSet = new TreeSet<>(new LiquidComparator());
+
+            while (something > 0) {
+                Optional<Liquid> test = oldCup.getLiquid().stream().skip(i).findFirst();
+
+                if (test.isPresent() && test.get().getVolume() < something) {
+                    something -= test.get().getVolume();
+                    testSet.add(test.get());
+                } else if (test.isPresent()) {
+                    test.get().setVolume(test.get().getVolume() - (test.get().getVolume() - something));
+                    testSet.add(test.get());
+                    something = 0;
+                }
+                i++;
+            }
+            cup.setLiquid(testSet);
+        } else {
+            cup.setLiquid(oldCup.getLiquid());
+        }
     }
 
     public Integer busyCapacity(Set<Liquid> currentLiquid) {
@@ -169,7 +167,7 @@ public class Menu {
     }
 
     public void showLiquidInfo() {
-        cup.getLiquid().forEach(System.out::println);
+        cup.getLiquid().stream().sorted(Comparator.comparing(Liquid::getDensity)).forEach(System.out::println);
 
         cup.getLiquid().stream().max(Comparator.comparing(Liquid::getVolume)).ifPresent(n -> System.out.println("\n[Max liquid]: " + n));
 

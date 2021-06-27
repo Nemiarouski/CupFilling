@@ -26,7 +26,7 @@ public class Liquid implements Serializable {
     @Override
     public String toString() {
         return "[Liquid]: " +
-                "[Volume]: " + volume +
+                " [Volume]: " + volume +
                 " cm\u00B3 [Density]: " + density + " кг/m\u00B3";
     }
 }

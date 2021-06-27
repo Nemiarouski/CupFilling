@@ -23,12 +23,12 @@ public class LiquidService {
 
     public int getDensity(String type) {
         switch (type) {
-            case "Cream":
-                return 940;
-            case "Oil":
-                return 900;
             case "Petrol":
                 return 700;
+            case "Oil":
+                return 900;
+            case "Cream":
+                return 940;
             case "Water":
                 return 1000;
         }
@@ -40,7 +40,6 @@ public class LiquidService {
         System.out.println("2) Oil");
         System.out.println("3) Petrol");
         System.out.println("4) Cream");
-        System.out.println("5) Exit");
     }
 
     public String chooseLiquid(String typeOfLiquid) {
@@ -57,9 +56,6 @@ public class LiquidService {
             case "4":
                 System.out.println("You choose Cream.");
                 return "Cream";
-            case "5":
-                System.out.println("Have a good day!");
-                break;
             default:
                 System.out.println("You choose wrong option.");
                 createLiquid();

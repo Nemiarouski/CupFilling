@@ -4,10 +4,20 @@ import project.entity.cup.Cup;
 import project.entity.cupfactory.CupFactory;
 import project.entity.cupfactory.CylinderFactory;
 import project.entity.cupfactory.ParallelepipedFactory;
+import project.repository.CupRepository;
 import project.utils.Console;
 import java.util.List;
 
 public class CupService {
+    CupRepository cupRepository = new CupRepository();
+
+    public void save(Cup cup) {
+        cupRepository.saveTo(cup);
+    }
+
+    public Cup download() {
+        return cupRepository.downloadFrom();
+    }
 
     public Cup createCup() {
         showCupTypes();
