@@ -1,6 +1,6 @@
 package project.secondversion.console;
 
-import secondversion.commands.iCommand;
+import project.secondversion.commands.iCommand;
 
 public class Interpreter {
 

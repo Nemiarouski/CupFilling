@@ -1,6 +1,6 @@
 package project.secondversion;
 
-import secondversion.console.Interpreter;
+import project.secondversion.console.Interpreter;
 
 public class CupFillingApplication {
     public static void main(String[] args) {
