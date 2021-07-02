@@ -2,12 +2,10 @@ package project.entity.cup;
 
 import project.entity.liquids.Liquid;
 import project.utils.LiquidComparator;
-import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class Cup implements Serializable {
-    private static final long serialVersionUID = 1L;
+public abstract class Cup {
     private int width;
     private int height;
     private int capacity;
@@ -21,9 +19,7 @@ public class Cup implements Serializable {
         this.capacity = findCapacity();
     }
 
-    public int findCapacity() {
-        return 0;
-    }
+    public abstract int findCapacity();
 
     public int getWidth() {
         return width;

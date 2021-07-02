@@ -1,9 +1,6 @@
 package project.entity.liquids;
 
-import java.io.Serializable;
-
-public class Liquid implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Liquid {
     private Integer volume;
     private Integer density;
     private String type;

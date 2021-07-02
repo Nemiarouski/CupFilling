@@ -1,4 +1,4 @@
-package project.secondversion.console;
+package project.secondversion.consoleinterpreter;
 
 import project.secondversion.commands.iCommand;
 

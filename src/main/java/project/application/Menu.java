@@ -83,6 +83,7 @@ public class Menu {
             Integer finalVolumeToAdd = volumeToAdd;
             optionalLiquid.ifPresent(liquid -> liquid.setVolume(liquid.getVolume() + finalVolumeToAdd));
         } else {
+            liquidToAdd.setVolume(volumeToAdd);
             currentLiquid.add(liquidToAdd);
         }
         cup.setLiquid(currentLiquid);
@@ -93,6 +94,10 @@ public class Menu {
 
         System.out.println("How much liquid to delete:");
         Integer volumeToDelete = Console.inputPositiveNumberValidation();
+
+        if (volumeToDelete > busyCapacity(currentLiquid)) {
+            volumeToDelete = busyCapacity(currentLiquid);
+        }
 
         int i = 0;
         while (volumeToDelete > 0) {

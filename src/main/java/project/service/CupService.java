@@ -6,6 +6,8 @@ import project.entity.cupfactory.CylinderFactory;
 import project.entity.cupfactory.ParallelepipedFactory;
 import project.repository.CupRepository;
 import project.utils.Console;
+
+import java.io.IOException;
 import java.util.List;
 
 public class CupService {
@@ -40,11 +42,10 @@ public class CupService {
         System.out.println("Choose a shape of cup:");
         System.out.println("1) Cylinder");
         System.out.println("2) Parallelepiped");
-        System.out.println("3) Exit");
     }
 
     public CupFactory chooseCupType() {
-        int typeOfCup = Console.inputMenuValidation(3);
+        int typeOfCup = Console.inputMenuValidation(2);
         switch (typeOfCup) {
             case 1:
                 System.out.println("You choose Cylinder.");
@@ -52,18 +53,24 @@ public class CupService {
             case 2:
                 System.out.println("You choose Parallelepiped.");
                 return chooseCupFactory("Parallelepiped");
-            case 3:
-                System.out.println("Have a good day!");
-                break;
         }
         return null;
     }
 
     public void save(Cup cup) {
-        cupRepository.saveTo(cup);
+        try {
+            cupRepository.saveTo(cup);
+        } catch (IOException e) {
+            System.err.println("We have some problems. " + e);
+        }
     }
 
     public Cup download() {
-        return cupRepository.downloadFrom();
+        try {
+            return cupRepository.downloadFrom();
+        } catch (IOException e) {
+            System.err.println("We have some problems. " + e);
+        }
+        return null;
     }
 }

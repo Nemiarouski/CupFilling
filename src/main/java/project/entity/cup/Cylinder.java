@@ -2,6 +2,7 @@ package project.entity.cup;
 
 public class Cylinder extends Cup {
 
+    public Cylinder() {}
     public Cylinder(int width, int height) {
         super(width, height);
     }

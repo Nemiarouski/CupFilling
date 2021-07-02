@@ -12,9 +12,9 @@ public class Console {
     public static Integer inputMenuValidation(int flag) {
         int temp;
         do {
-            System.out.println("Input positive number between 1 and " + flag + ":");
+            System.out.println("[INFO] Positive number 1-" + flag + ":");
             while (!scanner.hasNextInt()) {
-                System.out.println("Input positive number between 1 and " + flag + ":");
+                System.out.println("[INFO] Positive number 1-" + flag + ":");
                 scanner.next();
             }
             temp = scanner.nextInt();
@@ -25,9 +25,9 @@ public class Console {
     public static Integer inputPositiveNumberValidation() {
         int temp;
         do {
-            System.out.println("Input positive number:");
+            System.out.println("[INFO] Input positive number:");
             while (!scanner.hasNextInt()) {
-                System.out.println("Input positive number:");
+                System.out.println("[INFO] Input positive number:");
                 scanner.next();
             }
             temp = scanner.nextInt();
