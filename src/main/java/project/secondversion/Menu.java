@@ -19,11 +19,13 @@ public class Menu {
 
         int choice;
         do {
+            //разделить старт
             for (iCommand command : commands) {
                 if (command.flag().equals(CommandFlag.START)) {
                     interpreter.start(command);
                 }
             }
+            //модификация не здесь
             commands.removeIf(n -> n.flag().equals(CommandFlag.START));
 
             showMenu();

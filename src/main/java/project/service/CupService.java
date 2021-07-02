@@ -2,19 +2,13 @@ package project.service;
 
 import project.entity.cup.Cup;
 import project.entity.cupfactory.CupFactory;
-import project.entity.cupfactory.CylinderFactory;
-import project.entity.cupfactory.ParallelepipedFactory;
 import project.repository.CupRepository;
 import project.utils.Console;
-
 import java.io.IOException;
 import java.util.List;
 
 public class CupService {
     CupRepository cupRepository = new CupRepository();
-
-    public static void create() {
-    }
 
     public Cup createCup() {
         showCupTypes();
@@ -31,20 +25,13 @@ public class CupService {
         return cupFactory.createCup(width, height);
     }
 
-    public CupFactory chooseCupFactory(String typeOfCup) {
-        List<CupFactory> factories = List.of(new CylinderFactory(), new ParallelepipedFactory());
-        for (CupFactory cupFactory : factories) {
-            if (cupFactory.factoryType().equals(typeOfCup)) {
-                return cupFactory;
-            }
-        }
-        return null;
-    }
+
 
     public void showCupTypes() {
-        System.out.println("Choose a shape of cup:");
-        System.out.println("1) Cylinder");
-        System.out.println("2) Parallelepiped");
+        List<String> types = cupRepository.getCupTypes();
+        for (int i = 0; i < types.size(); i++) {
+            System.out.println((i + 1) + ") " + types.get(i));
+        }
     }
 
     public CupFactory chooseCupType() {

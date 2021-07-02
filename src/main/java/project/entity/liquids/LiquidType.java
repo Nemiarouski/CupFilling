@@ -19,16 +19,8 @@ public enum LiquidType {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public int getDensity() {
         return density;
-    }
-
-    public void setDensity(int density) {
-        this.density = density;
     }
 
     @Override

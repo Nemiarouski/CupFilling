@@ -65,7 +65,7 @@ public class Menu {
     }
 
     public void addLiquid() {
-        Liquid liquidToAdd = liquidService.createLiquid();
+/*        Liquid liquidToAdd = liquidService.createLiquid();
         Integer volumeToAdd = liquidToAdd.getVolume();
         Set<Liquid> currentLiquid = cup.getLiquid();
         Integer freeCapacity = cup.getCapacity() - busyCapacity(currentLiquid);
@@ -86,7 +86,7 @@ public class Menu {
             liquidToAdd.setVolume(volumeToAdd);
             currentLiquid.add(liquidToAdd);
         }
-        cup.setLiquid(currentLiquid);
+        cup.setLiquid(currentLiquid);*/
     }
 
     private void deleteLiquid() {

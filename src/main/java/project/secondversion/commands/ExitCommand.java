@@ -10,6 +10,7 @@ public class ExitCommand implements iCommand {
     @Override
     public void execute() {
         //Отправка false на прекращение цикла.
+        //что-нибудь вернуть для выхода
     }
 
     @Override

@@ -3,6 +3,7 @@ package project.secondversion.commands;
 import project.service.CupService;
 
 public class CreateCupCommand implements iCommand {
+    private CupService cupService = new CupService();
 
     @Override
     public CommandFlag flag() {
@@ -11,12 +12,15 @@ public class CreateCupCommand implements iCommand {
 
     @Override
     public void execute() {
-        CupService.create();
+        cupService.createCup();
+        System.out.println("Choose the type of cup:");
+
+        cupService.createCup();
     }
 
     @Override
     public void show() {
-        System.out.println("Меню создания нового стакана:");
+        System.out.println("Create Cup Menu:");
     }
 
     @Override
