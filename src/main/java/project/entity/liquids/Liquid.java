@@ -7,10 +7,10 @@ public class Liquid {
 
     public Liquid() {
     }
-    public Liquid(Integer volume, Integer density, String type) {
+    public Liquid(Integer volume, LiquidType liquidType) {
         this.volume = volume;
-        this.density = density;
-        this.type = type;
+        this.density = liquidType.getDensity();
+        this.type = liquidType.getType();
     }
 
     public Integer getVolume() {

@@ -3,7 +3,7 @@ package project.entity.cupfactory;
 import project.entity.cup.Cup;
 import project.entity.cup.Cylinder;
 
-public class CylinderFactory extends CupFactory {
+public class CylinderFactory implements CupFactory {
 
     @Override
     public Cup createCup(int width, int height) {

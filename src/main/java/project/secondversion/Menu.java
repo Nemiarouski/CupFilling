@@ -3,7 +3,6 @@ package project.secondversion;
 import project.secondversion.commands.*;
 import project.secondversion.consoleinterpreter.Interpreter;
 import project.utils.Console;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +39,6 @@ public class Menu {
         }
     }
 
-    //Найти способ полегче
     public void fillCommands() {
         addCommand(new StartCommand());
         addCommand(new AddLiquidCommand());

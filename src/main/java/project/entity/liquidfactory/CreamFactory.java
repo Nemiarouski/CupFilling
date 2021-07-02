@@ -3,7 +3,7 @@ package project.entity.liquidfactory;
 import project.entity.liquids.Cream;
 import project.entity.liquids.Liquid;
 
-public class CreamFactory extends LiquidFactory {
+public class CreamFactory implements LiquidFactory {
 
     @Override
     public Liquid createLiquid(int volume) {

@@ -1,5 +1,7 @@
 package project.secondversion.commands;
 
+import project.service.CupService;
+
 public class CreateCupCommand implements iCommand {
 
     @Override
@@ -9,12 +11,12 @@ public class CreateCupCommand implements iCommand {
 
     @Override
     public void execute() {
-        //return CupService.create();
+        CupService.create();
     }
 
     @Override
     public void show() {
-        //Меню создания стакана
+        System.out.println("Меню создания нового стакана:");
     }
 
     @Override

@@ -5,10 +5,10 @@ import project.entity.cup.Cup;
 import java.io.File;
 import java.io.IOException;
 
-public class CupRepository {
-    private final File file = new File("src/main/resources/cup.json");
+public class CupRepository implements iRepository<Cup> {
 
-    //CRUD
+    private Cup cup;
+    private final File file = new File("src/main/resources/cup.json");
 
     public void saveTo(Cup cup) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -18,8 +18,29 @@ public class CupRepository {
     public Cup downloadFrom() throws IOException {
         if (file.exists() && file.length() > 0) {
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.readValue(file, Cup.class);
+            return objectMapper.readValue(file, Cup.class);
         }
         return null;
+    }
+
+
+    @Override
+    public Cup create() {
+        return null;
+    }
+
+    @Override
+    public void read() {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void delete() {
+
     }
 }

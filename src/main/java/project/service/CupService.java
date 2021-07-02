@@ -13,6 +13,9 @@ import java.util.List;
 public class CupService {
     CupRepository cupRepository = new CupRepository();
 
+    public static void create() {
+    }
+
     public Cup createCup() {
         showCupTypes();
 

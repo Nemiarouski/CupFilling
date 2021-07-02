@@ -7,13 +7,9 @@ import project.utils.LiquidComparator;
 import java.util.Set;
 import java.util.TreeSet;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = Cylinder.class, name = "Cylinder"),
-        @JsonSubTypes.Type(value = Parallelepiped.class, name = "Parallelepiped")
-})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = Cylinder.class, name = "Cylinder"),
+                @JsonSubTypes.Type(value = Parallelepiped.class, name = "Parallelepiped")})
 public abstract class Cup {
     private int width;
     private int height;
