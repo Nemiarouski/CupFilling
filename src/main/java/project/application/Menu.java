@@ -47,7 +47,7 @@ public class Menu {
         addCommand(commands, new AddLiquidCommand());
         addCommand(commands, new DeleteLiquidCommand());
         addCommand(commands, new ShowInformationCommand());
-        addCommand(commands, new CreateCupCommand());
+        addCommand(commands, new CreateNewCupCommand());
         addCommand(commands, new SaveCupCommand());
         addCommand(commands, new DownloadCupCommand());
         addCommand(commands, new ExitCommand());
@@ -55,6 +55,6 @@ public class Menu {
 
     public void fillStartCommands() {
         addCommand(startCommands, new StartCommand());
-        addCommand(startCommands, new CreateCupCommand());
+        addCommand(startCommands, new CreateNewCupCommand());
     }
 }

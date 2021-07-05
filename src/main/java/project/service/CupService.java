@@ -138,7 +138,7 @@ public class CupService {
     }
 
     public void deleteLiquid(int volumeToDelete) {
-        Set<Liquid> currentLiquid = cupRepository.getCup().getLiquid();
+        Set<Liquid> currentLiquid = getCup().getLiquid();
 
         if (volumeToDelete > usedCapacity(currentLiquid)) {
             volumeToDelete = usedCapacity(currentLiquid);
@@ -159,11 +159,14 @@ public class CupService {
             i++;
         }
         currentLiquid.removeIf(l -> l.getVolume() == 0);
-        cupRepository.getCup().setLiquid(currentLiquid);
+        getCup().setLiquid(currentLiquid);
     }
 
-    public void changeCup() {
-        Cup oldCup = cupRepository.getCup();
+    public void changeCup(Cup oldCup, int choice, int width, int height) {
 
+    }
+
+    public Cup getCup() {
+        return cupRepository.getCup();
     }
 }

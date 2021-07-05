@@ -3,7 +3,7 @@ package project.commands;
 import project.service.CupService;
 import project.utils.ConsoleUtils;
 
-public class CreateCupCommand implements Command {
+public class CreateNewCupCommand implements Command {
     private CupService cupService = CupService.getSingleService();
 
     @Override
@@ -15,7 +15,6 @@ public class CreateCupCommand implements Command {
     public void execute() {
         System.out.println("Choose the type of cup:");
         cupService.showCupTypes();
-
         int choice = ConsoleUtils.inputMenuValidation(cupService.getCupTypes().size()) - 1;
 
         System.out.println("Input cup width:");
@@ -24,16 +23,20 @@ public class CreateCupCommand implements Command {
         System.out.println("Input cup height:");
         int height = ConsoleUtils.inputPositiveNumberValidation();
 
-        cupService.createCup(choice, width, height);
+        if (cupService.getCup() == null) {
+            cupService.createCup(choice, width, height);
+        } else {
+            cupService.changeCup(cupService.getCup(), choice, width, height);
+        }
     }
 
     @Override
     public void show() {
-        System.out.println("Create Cup Menu:");
+        System.out.println("Create New Cup Menu:");
     }
 
     @Override
     public String name() {
-        return "Create cup";
+        return "Create new cup";
     }
 }
