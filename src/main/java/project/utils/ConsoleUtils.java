@@ -2,7 +2,7 @@ package project.utils;
 
 import java.util.Scanner;
 
-public class Console {
+public class ConsoleUtils {
     public static Scanner scanner = new Scanner(System.in);
 
     public static String read() {

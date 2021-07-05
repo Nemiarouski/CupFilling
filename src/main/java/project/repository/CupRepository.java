@@ -16,12 +16,16 @@ public class CupRepository {
         return cup;
     }
 
+    public void setCup(Cup cup) {
+        this.cup = cup;
+    }
+
     public List<String> getCupTypes() {
         return cupTypes;
     }
 
-    public void createCup(CupFactory cupFactory, Integer width, Integer height) {
-        cup = cupFactory.createCup(width, height);
+    public void createCup(CupFactory cupFactory, int width, int height) {
+        setCup(cupFactory.createCup(width, height));
     }
 
     public void saveTo() throws IOException {

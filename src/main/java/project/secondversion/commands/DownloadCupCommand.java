@@ -3,7 +3,7 @@ package project.secondversion.commands;
 import project.service.CupService;
 
 public class DownloadCupCommand implements iCommand {
-    private CupService cupService = new CupService();
+    private CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {

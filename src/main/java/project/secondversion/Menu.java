@@ -2,7 +2,7 @@ package project.secondversion;
 
 import project.secondversion.commands.*;
 import project.secondversion.consoleinterpreter.Interpreter;
-import project.utils.Console;
+import project.utils.ConsoleUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class Menu {
 
             showMenu();
 
-            choice = Console.inputMenuValidation(commands.size()) - 1;
+            choice = ConsoleUtils.inputMenuValidation(commands.size()) - 1;
             interpreter.start(commands.get(choice));
         } while (!commands.get(choice).flag().equals(CommandFlag.EXIT));
     }

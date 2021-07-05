@@ -1,10 +1,10 @@
 package project.secondversion.commands;
 
 import project.service.CupService;
-import project.utils.Console;
+import project.utils.ConsoleUtils;
 
 public class StartCommand implements iCommand {
-    private CupService cupService = new CupService();
+    private CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
@@ -16,13 +16,13 @@ public class StartCommand implements iCommand {
         System.out.println("Choose the type of cup:");
         cupService.showCupTypes();
 
-        int choice = Console.inputMenuValidation(cupService.getCupTypes().size()) - 1;
+        int choice = ConsoleUtils.inputMenuValidation(cupService.getCupTypes().size()) - 1;
 
         System.out.println("Input cup width:");
-        int width = Console.inputPositiveNumberValidation();
+        int width = ConsoleUtils.inputPositiveNumberValidation();
 
         System.out.println("Input cup height:");
-        int height = Console.inputPositiveNumberValidation();
+        int height = ConsoleUtils.inputPositiveNumberValidation();
 
         cupService.createCup(choice, width, height);
     }

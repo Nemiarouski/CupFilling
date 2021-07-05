@@ -1,1 +1,1 @@
-{"type":"Parallelepiped","width":3,"height":3,"capacity":27,"liquid":[{"volume":5,"density":1000,"type":"Water"}]}
+{"type":"Cylinder","width":3,"height":5,"capacity":35,"liquid":[{"volume":15,"density":700,"type":"Petrol"},{"volume":5,"density":940,"type":"Cream"},{"volume":15,"density":1000,"type":"Water"}]}

@@ -1,10 +1,10 @@
 package project.secondversion.commands;
 
 import project.service.CupService;
-import project.utils.Console;
+import project.utils.ConsoleUtils;
 
 public class ShowInformationCommand implements iCommand {
-    private CupService cupService = new CupService();
+    private CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
@@ -14,7 +14,7 @@ public class ShowInformationCommand implements iCommand {
     @Override
     public void execute() {
         cupService.cupInformationMenu();
-        int choice = Console.inputMenuValidation(3);
+        int choice = ConsoleUtils.inputPositiveNumberValidation();
         cupService.showCupInformation(choice);
     }
 

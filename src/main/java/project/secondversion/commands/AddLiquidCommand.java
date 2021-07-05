@@ -3,11 +3,11 @@ package project.secondversion.commands;
 import project.entity.liquids.Liquid;
 import project.service.CupService;
 import project.service.LiquidService;
-import project.utils.Console;
+import project.utils.ConsoleUtils;
 
 public class AddLiquidCommand implements iCommand {
-    private LiquidService liquidService = new LiquidService();
-    private CupService cupService = new CupService();
+    private final LiquidService liquidService = new LiquidService();
+    private final CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
@@ -18,9 +18,9 @@ public class AddLiquidCommand implements iCommand {
     public void execute() {
         liquidService.showLiquidTypes();
         System.out.println("Choose the type of liquid:");
-        int choice = Console.inputMenuValidation(liquidService.getLiquidTypes().size()) - 1;
+        int choice = ConsoleUtils.inputMenuValidation(liquidService.getLiquidTypes().size()) - 1;
         System.out.println("How much liquid to add?");
-        int volume = Console.inputPositiveNumberValidation();
+        int volume = ConsoleUtils.inputPositiveNumberValidation();
         Liquid liquid = liquidService.createLiquid(choice, volume);
         cupService.addLiquid(liquid);
     }
