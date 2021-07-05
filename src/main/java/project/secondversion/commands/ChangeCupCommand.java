@@ -1,6 +1,9 @@
 package project.secondversion.commands;
 
+import project.service.CupService;
+
 public class ChangeCupCommand implements iCommand {
+    private CupService cupService = new CupService();
 
     @Override
     public CommandFlag flag() {
@@ -9,12 +12,12 @@ public class ChangeCupCommand implements iCommand {
 
     @Override
     public void execute() {
-        //CupService.changeCup();
+        cupService.changeCup();
     }
 
     @Override
     public void show() {
-        //Меню изменения стакана
+        System.out.println("Cup Change Menu:");
     }
 
     @Override

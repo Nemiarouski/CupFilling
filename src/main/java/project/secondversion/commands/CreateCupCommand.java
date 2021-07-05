@@ -1,6 +1,7 @@
 package project.secondversion.commands;
 
 import project.service.CupService;
+import project.utils.Console;
 
 public class CreateCupCommand implements iCommand {
     private CupService cupService = new CupService();
@@ -12,10 +13,7 @@ public class CreateCupCommand implements iCommand {
 
     @Override
     public void execute() {
-        cupService.createCup();
-        System.out.println("Choose the type of cup:");
 
-        cupService.createCup();
     }
 
     @Override

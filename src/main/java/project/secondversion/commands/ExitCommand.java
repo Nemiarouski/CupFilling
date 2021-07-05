@@ -15,7 +15,7 @@ public class ExitCommand implements iCommand {
 
     @Override
     public void show() {
-        //Прощание с клиентом
+        System.out.println("Have a good day!");
     }
 
     @Override

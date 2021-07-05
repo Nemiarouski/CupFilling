@@ -16,11 +16,13 @@ public class AddLiquidCommand implements iCommand {
 
     @Override
     public void execute() {
+        liquidService.showLiquidTypes();
         System.out.println("Choose the type of liquid:");
         int choice = Console.inputMenuValidation(liquidService.getLiquidTypes().size()) - 1;
         System.out.println("How much liquid to add?");
         int volume = Console.inputPositiveNumberValidation();
         Liquid liquid = liquidService.createLiquid(choice, volume);
+        cupService.addLiquid(liquid);
     }
 
     @Override

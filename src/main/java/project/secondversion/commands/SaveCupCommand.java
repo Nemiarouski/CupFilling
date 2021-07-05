@@ -1,6 +1,9 @@
 package project.secondversion.commands;
 
+import project.service.CupService;
+
 public class SaveCupCommand implements iCommand {
+    private CupService cupService = new CupService();
 
     @Override
     public CommandFlag flag() {
@@ -9,12 +12,12 @@ public class SaveCupCommand implements iCommand {
 
     @Override
     public void execute() {
-        //CupRepository.save()
+       cupService.save();
     }
 
     @Override
     public void show() {
-        //Сохраняем объект в файл
+        System.out.println("We save the cup to file.");
     }
 
     @Override

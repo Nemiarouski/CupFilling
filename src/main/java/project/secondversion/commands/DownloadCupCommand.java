@@ -1,6 +1,9 @@
 package project.secondversion.commands;
 
+import project.service.CupService;
+
 public class DownloadCupCommand implements iCommand {
+    private CupService cupService = new CupService();
 
     @Override
     public CommandFlag flag() {
@@ -9,12 +12,12 @@ public class DownloadCupCommand implements iCommand {
 
     @Override
     public void execute() {
-
+        cupService.download();
     }
 
     @Override
     public void show() {
-
+        System.out.println("We download the cup from file.");
     }
 
     @Override

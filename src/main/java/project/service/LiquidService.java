@@ -12,7 +12,6 @@ public class LiquidService {
     }
 
     public Liquid createLiquid(int choice, int volume) {
-        showLiquidTypes();
         LiquidType liquidType = chooseLiquid(choice);
         Liquid liquid = new Liquid(volume, liquidType);
         return liquid;
