@@ -50,20 +50,20 @@ public class CupService {
         if (cup != null) {
             switch (choice) {
                 case 1:
-                    cupRepository.getCup().getLiquid().stream()
+                    cup.getLiquid().stream()
                             .sorted(Comparator.comparing(Liquid::getDensity))
                             .forEach(System.out::println);
                     break;
                 case 2:
-                    cupRepository.getCup().getLiquid().stream()
+                    cup.getLiquid().stream()
                             .max(Comparator.comparing(Liquid::getVolume))
-                            .ifPresent(n -> System.out.println("\n[Max liquid]: " + n));
+                            .ifPresent(n -> System.out.println("[Max liquid]: " + n));
                     break;
                 case 3:
-                    cupRepository.getCup().getLiquid().stream()
+                    cup.getLiquid().stream()
                             .map(Liquid::getVolume)
                             .reduce(Integer::sum)
-                            .ifPresent(n -> System.out.println("\n[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
+                            .ifPresent(n -> System.out.println("[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
                     break;
                 default:
                     System.out.println("You choose wrong option.");

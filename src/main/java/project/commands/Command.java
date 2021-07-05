@@ -1,6 +1,6 @@
-package project.secondversion.commands;
+package project.commands;
 
-public interface iCommand {
+public interface Command {
     CommandFlag flag();
     void execute();
     void show();

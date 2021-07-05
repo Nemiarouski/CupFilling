@@ -1,4 +1,4 @@
-package project.secondversion.commands;
+package project.commands;
 
 public enum CommandFlag {
     START, WORK, EXIT;

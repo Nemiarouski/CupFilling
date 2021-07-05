@@ -1,6 +1,6 @@
-package project.secondversion.commands;
+package project.commands;
 
-public class ExitCommand implements iCommand {
+public class ExitCommand implements Command {
 
     @Override
     public CommandFlag flag() {

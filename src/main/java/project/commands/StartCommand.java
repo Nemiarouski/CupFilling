@@ -1,27 +1,27 @@
-package project.secondversion.commands;
+package project.commands;
 
 import project.service.CupService;
 
-public class DownloadCupCommand implements iCommand {
+public class StartCommand implements Command {
     private CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
-        return CommandFlag.WORK;
+        return CommandFlag.START;
     }
 
     @Override
     public void execute() {
-        cupService.download();
+        //something
     }
 
     @Override
     public void show() {
-        System.out.println("We download the cup from file.");
+        System.out.println("Welcome to cup filling app!");
     }
 
     @Override
     public String name() {
-        return "Download cup";
+        return "Start";
     }
 }

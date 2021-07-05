@@ -1,9 +1,9 @@
-package project.secondversion.commands;
+package project.commands;
 
 import project.service.CupService;
 import project.utils.ConsoleUtils;
 
-public class DeleteLiquidCommand implements iCommand {
+public class ShowInformationCommand implements Command {
     private CupService cupService = CupService.getSingleService();
 
     @Override
@@ -13,18 +13,18 @@ public class DeleteLiquidCommand implements iCommand {
 
     @Override
     public void execute() {
-        System.out.println("How much liquid to delete:");
-        int volumeToDelete = ConsoleUtils.inputPositiveNumberValidation();
-        cupService.deleteLiquid(volumeToDelete);
+        cupService.cupInformationMenu();
+        int choice = ConsoleUtils.inputPositiveNumberValidation();
+        cupService.showCupInformation(choice);
     }
 
     @Override
     public void show() {
-        System.out.println("Delete Liquid Menu:");
+        System.out.println("Show Cup Information Menu:");
     }
 
     @Override
     public String name() {
-        return "Delete cup";
+        return "Show cup information";
     }
 }

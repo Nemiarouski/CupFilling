@@ -1,8 +1,8 @@
-package project.secondversion.commands;
+package project.commands;
 
 import project.service.CupService;
 
-public class SaveCupCommand implements iCommand {
+public class DownloadCupCommand implements Command {
     private CupService cupService = CupService.getSingleService();
 
     @Override
@@ -12,16 +12,16 @@ public class SaveCupCommand implements iCommand {
 
     @Override
     public void execute() {
-       cupService.save();
+        cupService.download();
     }
 
     @Override
     public void show() {
-        System.out.println("We save the cup to file.");
+        System.out.println("We download the cup from file.");
     }
 
     @Override
     public String name() {
-        return "Save cup";
+        return "Download cup";
     }
 }

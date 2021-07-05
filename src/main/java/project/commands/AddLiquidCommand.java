@@ -1,11 +1,11 @@
-package project.secondversion.commands;
+package project.commands;
 
 import project.entity.liquids.Liquid;
 import project.service.CupService;
 import project.service.LiquidService;
 import project.utils.ConsoleUtils;
 
-public class AddLiquidCommand implements iCommand {
+public class AddLiquidCommand implements Command {
     private final LiquidService liquidService = new LiquidService();
     private final CupService cupService = CupService.getSingleService();
 

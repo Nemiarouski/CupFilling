@@ -1,14 +1,14 @@
-package project.secondversion.commands;
+package project.commands;
 
 import project.service.CupService;
 import project.utils.ConsoleUtils;
 
-public class StartCommand implements iCommand {
+public class CreateCupCommand implements Command {
     private CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
-        return CommandFlag.START;
+        return CommandFlag.WORK;
     }
 
     @Override
@@ -29,11 +29,11 @@ public class StartCommand implements iCommand {
 
     @Override
     public void show() {
-        System.out.println("Welcome to cup filling app!");
+        System.out.println("Create Cup Menu:");
     }
 
     @Override
     public String name() {
-        return "Start";
+        return "Create cup";
     }
 }
