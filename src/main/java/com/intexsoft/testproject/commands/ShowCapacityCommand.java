@@ -5,8 +5,13 @@ import com.intexsoft.testproject.entity.liquids.Liquid;
 import com.intexsoft.testproject.service.CupService;
 import java.util.Optional;
 
-public class ShowCapacityCommand extends ShowInformationCommand {
+public class ShowCapacityCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
+
+    @Override
+    public CommandFlag flag() {
+        return CommandFlag.WORK;
+    }
 
     @Override
     public void execute() {
@@ -18,9 +23,14 @@ public class ShowCapacityCommand extends ShowInformationCommand {
         if (capacity.isPresent()) {
             System.out.println("[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - capacity.get()) + " cm\u00B3");
         } else {
-            System.out.println("Cup is empty.");
+            System.out.println("[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + cup.getCapacity() + " cm\u00B3");
         }
 
+    }
+
+    @Override
+    public void show() {
+        //System.out.println("Something");
     }
 
     @Override

@@ -12,8 +12,8 @@ public class Menu {
     private final Interpreter interpreter = new Interpreter();
 
     public void startMenu() {
-        fillMainCommands();
         fillStartCommands();
+        fillMainCommands();
         initCup();
         startApp();
     }

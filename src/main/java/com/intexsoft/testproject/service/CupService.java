@@ -91,8 +91,8 @@ public class CupService {
 
         int oldCapacity = oldCup.getLiquid().stream()
                 .map(Liquid::getVolume)
-                .reduce(Integer::sum)
-                .get();
+                .reduce(Integer::sum).orElse(0);
+
         int newCapacity = getCup().getCapacity();
 
         if (oldCapacity > newCapacity) {

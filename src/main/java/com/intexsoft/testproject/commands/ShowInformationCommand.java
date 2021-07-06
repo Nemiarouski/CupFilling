@@ -4,6 +4,11 @@ import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.List;
 
 public class ShowInformationCommand implements Command {
+    private final List<Command> showCommands;
+
+    public ShowInformationCommand() {
+        this.showCommands = List.of(new ShowSetCommand(), new ShowMaxCommand(), new ShowCapacityCommand());
+    }
 
     @Override
     public CommandFlag flag() {
@@ -12,7 +17,6 @@ public class ShowInformationCommand implements Command {
 
     @Override
     public void execute() {
-        List<Command> showCommands = List.of(new ShowSetCommand(), new ShowMaxCommand(), new ShowCapacityCommand());
         for (int i = 0; i < showCommands.size(); i++) {
             System.out.println((i + 1) + ") " + showCommands.get(i).name());
         }

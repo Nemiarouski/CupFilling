@@ -5,8 +5,13 @@ import com.intexsoft.testproject.service.CupService;
 import java.util.Comparator;
 import java.util.Set;
 
-public class ShowSetCommand extends ShowInformationCommand {
+public class ShowSetCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
+
+    @Override
+    public CommandFlag flag() {
+        return CommandFlag.WORK;
+    }
 
     @Override
     public void execute() {
@@ -20,6 +25,11 @@ public class ShowSetCommand extends ShowInformationCommand {
             System.out.println("Cup is empty.");
         }
 
+    }
+
+    @Override
+    public void show() {
+        //System.out.println("Something");
     }
 
     @Override
