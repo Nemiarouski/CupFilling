@@ -1,10 +1,9 @@
 package com.intexsoft.testproject.commands;
 
-import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
+import java.util.List;
 
 public class ShowInformationCommand implements Command {
-    private final CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
@@ -13,9 +12,12 @@ public class ShowInformationCommand implements Command {
 
     @Override
     public void execute() {
-        cupService.cupInformationMenu();
-        int choice = ConsoleUtils.inputValidate();
-        cupService.showCupInformation(choice);
+        List<Command> showCommands = List.of(new ShowSetCommand(), new ShowMaxCommand(), new ShowCapacityCommand());
+        for (int i = 0; i < showCommands.size(); i++) {
+            System.out.println((i + 1) + ") " + showCommands.get(i).name());
+        }
+        int choice = ConsoleUtils.inputFlagValidate(showCommands.size()) - 1;
+        showCommands.get(choice).execute();
     }
 
     @Override

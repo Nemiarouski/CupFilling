@@ -165,36 +165,4 @@ public class CupService {
             System.out.println((i + 1) + ") " + cupTypes.get(i));
         }
     }
-
-    public void cupInformationMenu() {
-        List<String> cupInformationMenu = List.of("Sorted list of liquid.", "Liquid with max volume.", "Free capacity in the cup.");
-        for (int i = 0; i < cupInformationMenu.size(); i++) {
-            System.out.println((i + 1) + ") " + cupInformationMenu.get(i));
-        }
-    }
-
-    public void showCupInformation(int choice) {
-        Cup cup = cupRepository.getCup();
-        switch (choice) {
-            case 1:
-                cup.getLiquid().stream()
-                        .sorted(Comparator.comparing(Liquid::getDensity))
-                        .forEach(System.out::println);
-                break;
-            case 2:
-                cup.getLiquid().stream()
-                        .max(Comparator.comparing(Liquid::getVolume))
-                        .ifPresent(n -> System.out.println("[Max liquid]: " + n));
-                break;
-            case 3:
-                cup.getLiquid().stream()
-                        .map(Liquid::getVolume)
-                        .reduce(Integer::sum)
-                        .ifPresent(n -> System.out.println("[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
-                break;
-            default:
-                System.out.println("You choose wrong option.");
-                break;
-        }
-    }
 }

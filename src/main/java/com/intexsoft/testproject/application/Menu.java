@@ -12,13 +12,13 @@ public class Menu {
     private final Interpreter interpreter = new Interpreter();
 
     public void startMenu() {
-        fillCommands();
+        fillMainCommands();
         fillStartCommands();
         initCup();
         startApp();
     }
 
-    public void fillCommands() {
+    public void fillMainCommands() {
         addCommand(menuCommands, new AddLiquidCommand());
         addCommand(menuCommands, new DeleteLiquidCommand());
         addCommand(menuCommands, new ShowInformationCommand());
