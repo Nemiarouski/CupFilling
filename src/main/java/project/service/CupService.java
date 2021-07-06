@@ -6,6 +6,8 @@ import project.entity.cupfactory.CylinderFactory;
 import project.entity.cupfactory.ParallelepipedFactory;
 import project.entity.liquids.Liquid;
 import project.repository.CupRepository;
+import project.utils.LiquidComparator;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -163,7 +165,37 @@ public class CupService {
     }
 
     public void changeCup(Cup oldCup, int choice, int width, int height) {
+        createCup(choice, width, height);
 
+        int oldCapacity = oldCup.getLiquid().stream()
+                .map(Liquid::getVolume)
+                .reduce(Integer::sum)
+                .get();
+        int newCapacity = getCup().getCapacity();
+
+        if (oldCapacity > newCapacity) {
+            int i = 0;
+            Set<Liquid> newLiquidSet = new TreeSet<>(new LiquidComparator());
+
+            while (newCapacity > 0) {
+                Optional<Liquid> layerOfLiquid = oldCup.getLiquid().stream()
+                        .skip(i)
+                        .findFirst();
+
+                if (layerOfLiquid.isPresent() && layerOfLiquid.get().getVolume() < newCapacity) {
+                    newCapacity -= layerOfLiquid.get().getVolume();
+                    newLiquidSet.add(layerOfLiquid.get());
+                } else if (layerOfLiquid.isPresent()) {
+                    layerOfLiquid.get().setVolume(layerOfLiquid.get().getVolume() - (layerOfLiquid.get().getVolume() - newCapacity));
+                    newLiquidSet.add(layerOfLiquid.get());
+                    newCapacity = 0;
+                }
+                i++;
+            }
+            cupRepository.getCup().setLiquid(newLiquidSet);
+        } else {
+            cupRepository.getCup().setLiquid(oldCup.getLiquid());
+        }
     }
 
     public Cup getCup() {

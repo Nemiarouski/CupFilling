@@ -32,7 +32,7 @@ public class CreateNewCupCommand implements Command {
 
     @Override
     public void show() {
-        System.out.println("Create New Cup Menu:");
+        System.out.println("\nCreate New Cup Menu:");
     }
 
     @Override
