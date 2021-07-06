@@ -3,7 +3,7 @@ package project.commands;
 import project.service.CupService;
 
 public class DownloadCupCommand implements Command {
-    private CupService cupService = CupService.getSingleService();
+    private final CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {

@@ -4,7 +4,7 @@ import project.service.CupService;
 import project.utils.ConsoleUtils;
 
 public class CreateNewCupCommand implements Command {
-    private CupService cupService = CupService.getSingleService();
+    private final CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
@@ -13,15 +13,15 @@ public class CreateNewCupCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println("Choose the type of cup:");
+        System.out.println("\nChoose the type of cup:");
         cupService.showCupTypes();
-        int choice = ConsoleUtils.inputMenuValidation(cupService.getCupTypes().size()) - 1;
+        int choice = ConsoleUtils.inputFlagValidate(cupService.getCupTypes().size()) - 1;
 
         System.out.println("Input cup width:");
-        int width = ConsoleUtils.inputPositiveNumberValidation();
+        int width = ConsoleUtils.inputValidate();
 
         System.out.println("Input cup height:");
-        int height = ConsoleUtils.inputPositiveNumberValidation();
+        int height = ConsoleUtils.inputValidate();
 
         if (cupService.getCup() == null) {
             cupService.createCup(choice, width, height);

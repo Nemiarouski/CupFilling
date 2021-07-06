@@ -7,15 +7,15 @@ import project.entity.cupfactory.ParallelepipedFactory;
 import project.entity.liquids.Liquid;
 import project.repository.CupRepository;
 import project.utils.LiquidComparator;
-
 import java.io.IOException;
 import java.util.*;
 
 public class CupService {
-    private CupRepository cupRepository = new CupRepository();
+    private final CupRepository cupRepository = new CupRepository();
     private static CupService singleService;
 
-    private CupService() {}
+    private CupService() {
+    }
 
     public static CupService getSingleService() {
         if (singleService == null) {
@@ -24,87 +24,17 @@ public class CupService {
         return singleService;
     }
 
-    public void createCup(int choice, int width, int height) {
-        CupFactory cupFactory = chooseCupType(choice);
-        cupRepository.createCup(cupFactory, width, height);
-    }
-
     public List<String> getCupTypes() {
         return cupRepository.getCupTypes();
     }
 
-    public void showCupTypes() {
-        List<String> cupTypes = getCupTypes();
-        for (int i = 0; i < cupTypes.size(); i++) {
-            System.out.println((i + 1) + ") " + cupTypes.get(i));
-        }
+    public Cup getCup() {
+        return cupRepository.getCup();
     }
 
-    public void cupInformationMenu() {
-        List<String> cupInformationMenu = List.of("Sorted list of liquid.", "Liquid with max volume.", "Free capacity in the cup.");
-        for (int i = 0; i < cupInformationMenu.size(); i++) {
-            System.out.println((i + 1) + ") " + cupInformationMenu.get(i));
-        }
-    }
-
-    public void showCupInformation(int choice) {
-        Cup cup = cupRepository.getCup();
-        if (cup != null) {
-            switch (choice) {
-                case 1:
-                    cup.getLiquid().stream()
-                            .sorted(Comparator.comparing(Liquid::getDensity))
-                            .forEach(System.out::println);
-                    break;
-                case 2:
-                    cup.getLiquid().stream()
-                            .max(Comparator.comparing(Liquid::getVolume))
-                            .ifPresent(n -> System.out.println("[Max liquid]: " + n));
-                    break;
-                case 3:
-                    cup.getLiquid().stream()
-                            .map(Liquid::getVolume)
-                            .reduce(Integer::sum)
-                            .ifPresent(n -> System.out.println("[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
-                    break;
-                default:
-                    System.out.println("You choose wrong option.");
-                    break;
-            }
-        } else {
-            System.out.println("Cup is empty.");
-        }
-    }
-
-    public CupFactory chooseCupType(int choice) {
-        List<String> cupTypes = getCupTypes();
-        return chooseCupFactory(cupTypes.get(choice));
-    }
-
-    public CupFactory chooseCupFactory(String typeOfCup) {
-        List<CupFactory> factories = List.of(new CylinderFactory(), new ParallelepipedFactory());
-        for (CupFactory cupFactory : factories) {
-            if (cupFactory.factoryType().equals(typeOfCup)) {
-                return cupFactory;
-            }
-        }
-        return null;
-    }
-
-    public void save() {
-        try {
-            cupRepository.saveTo();
-        } catch (IOException e) {
-            System.err.println("We have some problems. " + e);
-        }
-    }
-
-    public void download() {
-        try {
-            cupRepository.downloadFrom();
-        } catch (IOException e) {
-            System.err.println("We have some problems. " + e);
-        }
+    public void createCup(int choice, int width, int height) {
+        CupFactory cupFactory = chooseCupType(choice);
+        cupRepository.createCup(cupFactory, width, height);
     }
 
     public void addLiquid(Liquid liquid) {
@@ -131,14 +61,6 @@ public class CupService {
         cupRepository.getCup().setLiquid(currentLiquid);
     }
 
-    public Integer usedCapacity(Set<Liquid> currentLiquid) {
-        Integer generalLiquidInCup = 0;
-        for (Liquid liquid : currentLiquid) {
-            generalLiquidInCup += liquid.getVolume();
-        }
-        return generalLiquidInCup;
-    }
-
     public void deleteLiquid(int volumeToDelete) {
         Set<Liquid> currentLiquid = getCup().getLiquid();
 
@@ -147,7 +69,6 @@ public class CupService {
         }
 
         int i = 0;
-
         while (volumeToDelete > 0) {
             Optional<Liquid> layerOfLiquid = currentLiquid.stream().skip(i).findFirst();
 
@@ -198,7 +119,80 @@ public class CupService {
         }
     }
 
-    public Cup getCup() {
-        return cupRepository.getCup();
+    public void save() {
+        try {
+            cupRepository.saveTo();
+        } catch (IOException e) {
+            System.err.println("We have some problems. " + e);
+        }
+    }
+
+    public void download() {
+        try {
+            cupRepository.downloadFrom();
+        } catch (IOException e) {
+            System.err.println("We have some problems. " + e);
+        }
+    }
+
+    public CupFactory chooseCupType(int choice) {
+        List<String> cupTypes = getCupTypes();
+        return chooseCupFactory(cupTypes.get(choice));
+    }
+
+    public CupFactory chooseCupFactory(String typeOfCup) {
+        List<CupFactory> factories = List.of(new CylinderFactory(), new ParallelepipedFactory());
+        for (CupFactory cupFactory : factories) {
+            if (cupFactory.factoryType().equals(typeOfCup)) {
+                return cupFactory;
+            }
+        }
+        return null;
+    }
+
+    public int usedCapacity(Set<Liquid> currentLiquid) {
+        return currentLiquid.stream()
+                .map(Liquid::getVolume)
+                .reduce(Integer::sum)
+                .get();
+    }
+
+    public void showCupTypes() {
+        List<String> cupTypes = getCupTypes();
+        for (int i = 0; i < cupTypes.size(); i++) {
+            System.out.println((i + 1) + ") " + cupTypes.get(i));
+        }
+    }
+
+    public void cupInformationMenu() {
+        List<String> cupInformationMenu = List.of("Sorted list of liquid.", "Liquid with max volume.", "Free capacity in the cup.");
+        for (int i = 0; i < cupInformationMenu.size(); i++) {
+            System.out.println((i + 1) + ") " + cupInformationMenu.get(i));
+        }
+    }
+
+    public void showCupInformation(int choice) {
+        Cup cup = cupRepository.getCup();
+        switch (choice) {
+            case 1:
+                cup.getLiquid().stream()
+                        .sorted(Comparator.comparing(Liquid::getDensity))
+                        .forEach(System.out::println);
+                break;
+            case 2:
+                cup.getLiquid().stream()
+                        .max(Comparator.comparing(Liquid::getVolume))
+                        .ifPresent(n -> System.out.println("[Max liquid]: " + n));
+                break;
+            case 3:
+                cup.getLiquid().stream()
+                        .map(Liquid::getVolume)
+                        .reduce(Integer::sum)
+                        .ifPresent(n -> System.out.println("[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - n) + " cm\u00B3"));
+                break;
+            default:
+                System.out.println("You choose wrong option.");
+                break;
+        }
     }
 }

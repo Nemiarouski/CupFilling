@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
-    private List<Command> commands = new ArrayList<>();
-    private List<Command> startCommands = new ArrayList<>();
-    private Interpreter interpreter = new Interpreter();
+    private final List<Command> menuCommands = new ArrayList<>();
+    private final List<Command> startCommands = new ArrayList<>();
+    private final Interpreter interpreter = new Interpreter();
 
     public void startMenu() {
         fillCommands();
@@ -18,17 +18,19 @@ public class Menu {
         startApp();
     }
 
-    public void addCommand(List<Command> commands, Command command) {
-        commands.add(command);
+    public void fillCommands() {
+        addCommand(menuCommands, new AddLiquidCommand());
+        addCommand(menuCommands, new DeleteLiquidCommand());
+        addCommand(menuCommands, new ShowInformationCommand());
+        addCommand(menuCommands, new CreateNewCupCommand());
+        addCommand(menuCommands, new SaveCupCommand());
+        addCommand(menuCommands, new DownloadCupCommand());
+        addCommand(menuCommands, new ExitCommand());
     }
 
-    public void startApp() {
-        int choice;
-        do {
-            showMenu();
-            choice = ConsoleUtils.inputMenuValidation(commands.size()) - 1;
-            interpreter.start(commands.get(choice));
-        } while (!commands.get(choice).flag().equals(CommandFlag.EXIT));
+    public void fillStartCommands() {
+        addCommand(startCommands, new StartCommand());
+        addCommand(startCommands, new CreateNewCupCommand());
     }
 
     public void initCup() {
@@ -37,24 +39,22 @@ public class Menu {
         }
     }
 
+    public void startApp() {
+        int choice;
+        do {
+            showMenu();
+            choice = ConsoleUtils.inputFlagValidate(menuCommands.size()) - 1;
+            interpreter.start(menuCommands.get(choice));
+        } while (!menuCommands.get(choice).flag().equals(CommandFlag.EXIT));
+    }
+
     public void showMenu() {
-        for (int i = 0; i < commands.size(); i++) {
-            System.out.println((i + 1) + ") " + commands.get(i).name());
+        for (int i = 0; i < menuCommands.size(); i++) {
+            System.out.println((i + 1) + ") " + menuCommands.get(i).name());
         }
     }
 
-    public void fillCommands() {
-        addCommand(commands, new AddLiquidCommand());
-        addCommand(commands, new DeleteLiquidCommand());
-        addCommand(commands, new ShowInformationCommand());
-        addCommand(commands, new CreateNewCupCommand());
-        addCommand(commands, new SaveCupCommand());
-        addCommand(commands, new DownloadCupCommand());
-        addCommand(commands, new ExitCommand());
-    }
-
-    public void fillStartCommands() {
-        addCommand(startCommands, new StartCommand());
-        addCommand(startCommands, new CreateNewCupCommand());
+    public void addCommand(List<Command> commands, Command command) {
+        commands.add(command);
     }
 }

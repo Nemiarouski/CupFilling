@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public class LiquidComparator implements Comparator<Liquid> {
     @Override
-    public int compare(Liquid o1, Liquid o2) {
-        return o1.getDensity().compareTo(o2.getDensity());
+    public int compare(Liquid l1, Liquid l2) {
+        return l1.getDensity().compareTo(l2.getDensity());
     }
 }

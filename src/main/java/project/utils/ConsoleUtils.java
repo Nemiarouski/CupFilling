@@ -3,35 +3,35 @@ package project.utils;
 import java.util.Scanner;
 
 public class ConsoleUtils {
-    public static Scanner scanner = new Scanner(System.in);
+    private final static Scanner scanner = new Scanner(System.in);
 
     public static String read() {
         return scanner.nextLine();
     }
 
-    public static Integer inputMenuValidation(int flag) {
-        int temp;
+    public static int inputFlagValidate(int flag) {
+        int inputNumber;
         do {
-            System.out.println("[INFO] Positive number 1-" + flag + ":");
+            System.out.println("[INFO]: Input number 1-" + flag + ":");
             while (!scanner.hasNextInt()) {
-                System.out.println("[INFO] Positive number 1-" + flag + ":");
+                System.out.println("[INFO]: Input number 1-" + flag + ":");
                 scanner.next();
             }
-            temp = scanner.nextInt();
-        } while (temp <= 0 | temp > flag);
-        return temp;
+            inputNumber = scanner.nextInt();
+        } while (inputNumber <= 0 | inputNumber > flag);
+        return inputNumber;
     }
 
-    public static Integer inputPositiveNumberValidation() {
-        int temp;
+    public static int inputValidate() {
+        int inputNumber;
         do {
-            System.out.println("[INFO] Input positive number:");
+            System.out.println("[INFO]: Input positive number:");
             while (!scanner.hasNextInt()) {
-                System.out.println("[INFO] Input positive number:");
+                System.out.println("[INFO]: Input positive number:");
                 scanner.next();
             }
-            temp = scanner.nextInt();
-        } while (temp <= 0);
-        return temp;
+            inputNumber = scanner.nextInt();
+        } while (inputNumber <= 0);
+        return inputNumber;
     }
 }

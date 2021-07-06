@@ -4,7 +4,7 @@ import project.service.CupService;
 import project.utils.ConsoleUtils;
 
 public class ShowInformationCommand implements Command {
-    private CupService cupService = CupService.getSingleService();
+    private final CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
@@ -14,7 +14,7 @@ public class ShowInformationCommand implements Command {
     @Override
     public void execute() {
         cupService.cupInformationMenu();
-        int choice = ConsoleUtils.inputPositiveNumberValidation();
+        int choice = ConsoleUtils.inputValidate();
         cupService.showCupInformation(choice);
     }
 

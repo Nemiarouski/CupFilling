@@ -4,7 +4,7 @@ import project.service.CupService;
 import project.utils.ConsoleUtils;
 
 public class DeleteLiquidCommand implements Command {
-    private CupService cupService = CupService.getSingleService();
+    private final CupService cupService = CupService.getSingleService();
 
     @Override
     public CommandFlag flag() {
@@ -14,7 +14,7 @@ public class DeleteLiquidCommand implements Command {
     @Override
     public void execute() {
         System.out.println("How much liquid to delete:");
-        int volumeToDelete = ConsoleUtils.inputPositiveNumberValidation();
+        int volumeToDelete = ConsoleUtils.inputValidate();
         cupService.deleteLiquid(volumeToDelete);
     }
 
