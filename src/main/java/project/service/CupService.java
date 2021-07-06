@@ -41,7 +41,7 @@ public class CupService {
         int volumeToAdd = liquid.getVolume();
         Set<Liquid> currentLiquid = cupRepository.getCup().getLiquid();
 
-        int freeCapacity = cupRepository.getCup().getCapacity() - usedCapacity(currentLiquid); //busy
+        int freeCapacity = cupRepository.getCup().getCapacity() - usedCapacity(currentLiquid);
 
         if (volumeToAdd > freeCapacity) {
             volumeToAdd = freeCapacity;
@@ -150,11 +150,12 @@ public class CupService {
         return null;
     }
 
-    public int usedCapacity(Set<Liquid> currentLiquid) {
-        return currentLiquid.stream()
-                .map(Liquid::getVolume)
-                .reduce(Integer::sum)
-                .get();
+    public Integer usedCapacity(Set<Liquid> currentLiquid) {
+        Integer generalLiquidInCup = 0;
+        for (Liquid liquid : currentLiquid) {
+            generalLiquidInCup += liquid.getVolume();
+        }
+        return generalLiquidInCup;
     }
 
     public void showCupTypes() {

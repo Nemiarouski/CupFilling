@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class CupRepository {
-    private final File file = new File("src/main/resources/cup.json");
+    private final File file = new File("/home/INTEXSOFT/petr.nemerovsky/Documents/JavaProjects/CupFilling/src/main/resources/cup.json");
     private final List<String> cupTypes = List.of("Cylinder", "Parallelepiped");
     private Cup cup;
 
@@ -33,6 +33,8 @@ public class CupRepository {
         if (file.exists() && file.length() > 0) {
             ObjectMapper objectMapper = new ObjectMapper();
             cup = objectMapper.readValue(file, Cup.class);
+        } else {
+            System.out.println("Some problems");
         }
     }
 }
