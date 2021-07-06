@@ -13,7 +13,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>project.application.Application</mainClass>
+                            <mainClass>com.intexsoft.testproject.application.Application</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
