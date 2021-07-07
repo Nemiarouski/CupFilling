@@ -7,7 +7,11 @@ import com.intexsoft.testproject.utils.ConsoleUtils;
 
 public class AddLiquidCommand implements Command {
     private final LiquidService liquidService = new LiquidService();
-    private final CupService cupService = CupService.getSingleService();
+    private final CupService cupService;
+
+    public AddLiquidCommand(CupService cupService) {
+        this.cupService = cupService;
+    }
 
     @Override
     public String execute() {

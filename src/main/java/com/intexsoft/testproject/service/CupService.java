@@ -12,17 +12,6 @@ import java.util.*;
 
 public class CupService {
     private final CupRepository cupRepository = new CupRepository();
-    private static CupService singleService;
-
-    private CupService() {
-    }
-
-    public static CupService getSingleService() {
-        if (singleService == null) {
-            singleService = new CupService();
-        }
-        return singleService;
-    }
 
     public List<String> getCupTypes() {
         return cupRepository.getCupTypes();

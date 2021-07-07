@@ -3,7 +3,11 @@ package com.intexsoft.testproject.commands;
 import com.intexsoft.testproject.service.CupService;
 
 public class SaveCupCommand implements Command {
-    private final CupService cupService = CupService.getSingleService();
+    private final CupService cupService;
+
+    public SaveCupCommand(CupService cupService) {
+        this.cupService = cupService;
+    }
 
     @Override
     public String execute() {

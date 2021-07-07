@@ -6,7 +6,11 @@ import java.util.Comparator;
 import java.util.Optional;
 
 public class ShowMaxCommand implements Command {
-    private final CupService cupService = CupService.getSingleService();
+    private final CupService cupService;
+
+    public ShowMaxCommand(CupService cupService) {
+        this.cupService = cupService;
+    }
 
     @Override
     public String execute() {

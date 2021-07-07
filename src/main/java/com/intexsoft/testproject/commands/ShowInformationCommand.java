@@ -1,13 +1,14 @@
 package com.intexsoft.testproject.commands;
 
+import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.List;
 
 public class ShowInformationCommand implements Command {
     private final List<Command> showCommands;
 
-    public ShowInformationCommand() {
-        this.showCommands = List.of(new ShowSetCommand(), new ShowMaxCommand(), new ShowCapacityCommand());
+    public ShowInformationCommand(CupService cupService) {
+        this.showCommands = List.of(new ShowSetCommand(cupService), new ShowMaxCommand(cupService), new ShowCapacityCommand(cupService));
     }
 
     @Override

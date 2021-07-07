@@ -6,7 +6,11 @@ import java.util.Comparator;
 import java.util.Set;
 
 public class ShowSetCommand implements Command {
-    private final CupService cupService = CupService.getSingleService();
+    private final CupService cupService;
+
+    public ShowSetCommand(CupService cupService) {
+        this.cupService = cupService;
+    }
 
     @Override
     public String execute() {

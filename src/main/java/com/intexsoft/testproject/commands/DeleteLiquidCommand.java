@@ -4,7 +4,11 @@ import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
 
 public class DeleteLiquidCommand implements Command {
-    private final CupService cupService = CupService.getSingleService();
+    private final CupService cupService;
+
+    public DeleteLiquidCommand(CupService cupService) {
+        this.cupService = cupService;
+    }
 
     @Override
     public String execute() {

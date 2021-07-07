@@ -2,6 +2,7 @@ package com.intexsoft.testproject.application;
 
 import com.intexsoft.testproject.commands.*;
 import com.intexsoft.testproject.interpreter.Interpreter;
+import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ public class Menu {
     private final List<Command> menuCommands = new ArrayList<>();
     private final List<Command> startCommands = new ArrayList<>();
     private final Interpreter interpreter = new Interpreter();
+    private final CupService cupService = new CupService();
 
     public void startMenu() {
         fillStartCommands();
@@ -19,18 +21,18 @@ public class Menu {
     }
 
     public void fillMainCommands() {
-        addCommand(menuCommands, new AddLiquidCommand());
-        addCommand(menuCommands, new DeleteLiquidCommand());
-        addCommand(menuCommands, new ShowInformationCommand());
-        addCommand(menuCommands, new CreateNewCupCommand());
-        addCommand(menuCommands, new SaveCupCommand());
-        addCommand(menuCommands, new DownloadCupCommand());
+        addCommand(menuCommands, new AddLiquidCommand(cupService));
+        addCommand(menuCommands, new DeleteLiquidCommand(cupService));
+        addCommand(menuCommands, new ShowInformationCommand(cupService));
+        addCommand(menuCommands, new CreateNewCupCommand(cupService));
+        addCommand(menuCommands, new SaveCupCommand(cupService));
+        addCommand(menuCommands, new DownloadCupCommand(cupService));
         addCommand(menuCommands, new ExitCommand());
     }
 
     public void fillStartCommands() {
         addCommand(startCommands, new StartCommand());
-        addCommand(startCommands, new CreateNewCupCommand());
+        addCommand(startCommands, new CreateNewCupCommand(cupService));
     }
 
     public void initCup() {
