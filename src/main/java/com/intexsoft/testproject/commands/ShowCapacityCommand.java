@@ -9,12 +9,7 @@ public class ShowCapacityCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
         Cup cup = cupService.getCup();
         Optional<Integer> capacity = cup.getLiquid().stream()
                 .map(Liquid::getVolume)
@@ -25,12 +20,12 @@ public class ShowCapacityCommand implements Command {
         } else {
             System.out.println("[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + cup.getCapacity() + " cm\u00B3");
         }
-
+        return "work";
     }
 
     @Override
     public void show() {
-        //System.out.println("Something");
+        //Nothing to show here.
     }
 
     @Override

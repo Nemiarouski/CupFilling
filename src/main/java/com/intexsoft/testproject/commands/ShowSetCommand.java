@@ -9,12 +9,7 @@ public class ShowSetCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
         Set<Liquid> setLiquid = cupService.getCup().getLiquid();
 
         if (setLiquid.size() != 0) {
@@ -24,12 +19,12 @@ public class ShowSetCommand implements Command {
         } else {
             System.out.println("Cup is empty.");
         }
-
+        return "work";
     }
 
     @Override
     public void show() {
-        //System.out.println("Something");
+        //Nothing to show here.
     }
 
     @Override

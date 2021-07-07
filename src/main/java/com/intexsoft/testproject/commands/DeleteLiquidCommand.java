@@ -7,15 +7,15 @@ public class DeleteLiquidCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
         System.out.println("How much liquid to delete:");
         int volumeToDelete = ConsoleUtils.inputValidate();
-        cupService.deleteLiquid(volumeToDelete);
+        if (!cupService.getCup().getLiquid().isEmpty()) {
+            cupService.deleteLiquid(volumeToDelete);
+        } else {
+            System.out.println("Cup is empty.");
+        }
+        return "work";
     }
 
     @Override

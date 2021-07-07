@@ -1,8 +1,7 @@
 package com.intexsoft.testproject.commands;
 
 public interface Command {
-    CommandFlag flag();
-    void execute();
+    String execute();
     void show();
     String name();
 }

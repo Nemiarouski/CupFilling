@@ -7,12 +7,7 @@ public class CreateNewCupCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
         System.out.println("\nChoose the type of cup:");
         cupService.showCupTypes();
         int choice = ConsoleUtils.inputFlagValidate(cupService.getCupTypes().size()) - 1;
@@ -28,6 +23,7 @@ public class CreateNewCupCommand implements Command {
         } else {
             cupService.changeCup(cupService.getCup(), choice, width, height);
         }
+        return "work";
     }
 
     @Override

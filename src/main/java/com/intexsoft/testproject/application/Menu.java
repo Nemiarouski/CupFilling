@@ -41,11 +41,12 @@ public class Menu {
 
     public void startApp() {
         int choice;
+        String result;
         do {
             showMenu();
             choice = ConsoleUtils.inputFlagValidate(menuCommands.size()) - 1;
-            interpreter.start(menuCommands.get(choice));
-        } while (!menuCommands.get(choice).flag().equals(CommandFlag.EXIT));
+            result = interpreter.start(menuCommands.get(choice));
+        } while (!result.equals("exit"));
     }
 
     public void showMenu() {

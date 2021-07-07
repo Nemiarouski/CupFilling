@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.intexsoft.testproject.utils.LiquidComparator;
 import com.intexsoft.testproject.entity.liquids.Liquid;
-
 import java.util.Set;
 import java.util.TreeSet;
 

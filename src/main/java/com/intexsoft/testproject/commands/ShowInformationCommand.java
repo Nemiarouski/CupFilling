@@ -11,17 +11,13 @@ public class ShowInformationCommand implements Command {
     }
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
         for (int i = 0; i < showCommands.size(); i++) {
             System.out.println((i + 1) + ") " + showCommands.get(i).name());
         }
         int choice = ConsoleUtils.inputFlagValidate(showCommands.size()) - 1;
         showCommands.get(choice).execute();
+        return "work";
     }
 
     @Override

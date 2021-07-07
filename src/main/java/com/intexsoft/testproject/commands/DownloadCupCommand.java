@@ -6,13 +6,9 @@ public class DownloadCupCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
         cupService.download();
+        return "work";
     }
 
     @Override

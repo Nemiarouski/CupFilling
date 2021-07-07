@@ -3,14 +3,8 @@ package com.intexsoft.testproject.commands;
 public class ExitCommand implements Command {
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.EXIT;
-    }
-
-    @Override
-    public void execute() {
-        //Отправка false на прекращение цикла.
-        //что-нибудь вернуть для выхода
+    public String execute() {
+        return "exit";
     }
 
     @Override

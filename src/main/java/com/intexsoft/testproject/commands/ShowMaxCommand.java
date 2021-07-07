@@ -9,12 +9,7 @@ public class ShowMaxCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
         Optional<Liquid> max = cupService.getCup().getLiquid().stream()
                 .max(Comparator.comparing(Liquid::getVolume));
 
@@ -23,11 +18,12 @@ public class ShowMaxCommand implements Command {
         } else {
             System.out.println("Cup is empty.");
         }
+        return "work";
     }
 
     @Override
     public void show() {
-        //System.out.println("Something");
+        //Nothing to show here.
     }
 
     @Override

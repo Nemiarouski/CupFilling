@@ -10,12 +10,7 @@ public class AddLiquidCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
         liquidService.showLiquidTypes();
         System.out.println("Choose the type of liquid:");
         int choice = ConsoleUtils.inputFlagValidate(liquidService.getLiquidTypes().size()) - 1;
@@ -23,6 +18,7 @@ public class AddLiquidCommand implements Command {
         int volume = ConsoleUtils.inputValidate();
         Liquid liquid = liquidService.createLiquid(choice, volume);
         cupService.addLiquid(liquid);
+        return "work";
     }
 
     @Override

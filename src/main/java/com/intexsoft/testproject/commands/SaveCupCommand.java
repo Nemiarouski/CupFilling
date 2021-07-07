@@ -6,13 +6,9 @@ public class SaveCupCommand implements Command {
     private final CupService cupService = CupService.getSingleService();
 
     @Override
-    public CommandFlag flag() {
-        return CommandFlag.WORK;
-    }
-
-    @Override
-    public void execute() {
+    public String execute() {
        cupService.save();
+       return "work";
     }
 
     @Override
