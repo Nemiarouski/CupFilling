@@ -13,9 +13,9 @@ public class AddLiquidCommand implements Command {
     public String execute() {
         liquidService.showLiquidTypes();
         System.out.println("Choose the type of liquid:");
-        int choice = ConsoleUtils.inputFlagValidate(liquidService.getLiquidTypes().size()) - 1;
+        Integer choice = ConsoleUtils.inputFlagValidate(liquidService.getLiquidTypes().size()) - 1;
         System.out.println("How much liquid to add?");
-        int volume = ConsoleUtils.inputValidate();
+        Integer volume = ConsoleUtils.inputValidate();
         Liquid liquid = liquidService.createLiquid(choice, volume);
         cupService.addLiquid(liquid);
         return "work";

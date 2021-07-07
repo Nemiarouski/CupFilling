@@ -10,13 +10,13 @@ public class CreateNewCupCommand implements Command {
     public String execute() {
         System.out.println("\nChoose the type of cup:");
         cupService.showCupTypes();
-        int choice = ConsoleUtils.inputFlagValidate(cupService.getCupTypes().size()) - 1;
+        Integer choice = ConsoleUtils.inputFlagValidate(cupService.getCupTypes().size()) - 1;
 
         System.out.println("Input cup width:");
-        int width = ConsoleUtils.inputValidate();
+        Integer width = ConsoleUtils.inputValidate();
 
         System.out.println("Input cup height:");
-        int height = ConsoleUtils.inputValidate();
+        Integer height = ConsoleUtils.inputValidate();
 
         if (cupService.getCup() == null) {
             cupService.createCup(choice, width, height);

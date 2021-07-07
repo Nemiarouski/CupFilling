@@ -11,42 +11,42 @@ import java.util.TreeSet;
 @JsonSubTypes({ @JsonSubTypes.Type(value = Cylinder.class, name = "Cylinder"),
                 @JsonSubTypes.Type(value = Parallelepiped.class, name = "Parallelepiped")})
 public abstract class Cup {
-    private int width;
-    private int height;
-    private int capacity;
+    private Integer width;
+    private Integer height;
+    private Integer capacity;
     private Set<Liquid> liquid = new TreeSet<>(new LiquidComparator());
 
     public Cup() {}
 
-    public Cup(int width, int height) {
+    public Cup(Integer width, Integer height) {
         this.width = width;
         this.height = height;
         this.capacity = findCapacity();
     }
 
-    public abstract int findCapacity();
+    public abstract Integer findCapacity();
 
-    public int getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(Integer width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

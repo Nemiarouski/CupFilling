@@ -3,12 +3,12 @@ package com.intexsoft.testproject.entity.cup;
 public class Parallelepiped extends Cup {
 
     public Parallelepiped() {}
-    public Parallelepiped(int width, int height) {
+    public Parallelepiped(Integer width, Integer height) {
         super(width, height);
     }
 
     @Override
-    public int findCapacity() {
+    public Integer findCapacity() {
         return getWidth() * getWidth() * getHeight();
     }
 

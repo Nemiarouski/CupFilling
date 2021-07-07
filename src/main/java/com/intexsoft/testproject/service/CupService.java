@@ -32,16 +32,16 @@ public class CupService {
         return cupRepository.getCup();
     }
 
-    public void createCup(int choice, int width, int height) {
+    public void createCup(Integer choice, Integer width, Integer height) {
         CupFactory cupFactory = chooseCupType(choice);
         cupRepository.createCup(cupFactory, width, height);
     }
 
     public void addLiquid(Liquid liquid) {
-        int volumeToAdd = liquid.getVolume();
+        Integer volumeToAdd = liquid.getVolume();
         Set<Liquid> currentLiquid = cupRepository.getCup().getLiquid();
 
-        int freeCapacity = cupRepository.getCup().getCapacity() - usedCapacity(currentLiquid);
+        Integer freeCapacity = cupRepository.getCup().getCapacity() - usedCapacity(currentLiquid);
 
         if (volumeToAdd > freeCapacity) {
             volumeToAdd = freeCapacity;
@@ -61,7 +61,7 @@ public class CupService {
         cupRepository.getCup().setLiquid(currentLiquid);
     }
 
-    public void deleteLiquid(int volumeToDelete) {
+    public void deleteLiquid(Integer volumeToDelete) {
         Set<Liquid> currentLiquid = getCup().getLiquid();
 
         if (volumeToDelete > usedCapacity(currentLiquid)) {
@@ -85,14 +85,14 @@ public class CupService {
         getCup().setLiquid(currentLiquid);
     }
 
-    public void changeCup(Cup oldCup, int choice, int width, int height) {
+    public void changeCup(Cup oldCup, Integer choice, Integer width, Integer height) {
         createCup(choice, width, height);
 
-        int oldCapacity = oldCup.getLiquid().stream()
+        Integer oldCapacity = oldCup.getLiquid().stream()
                 .map(Liquid::getVolume)
                 .reduce(Integer::sum).orElse(0);
 
-        int newCapacity = getCup().getCapacity();
+        Integer newCapacity = getCup().getCapacity();
 
         if (oldCapacity > newCapacity) {
             int i = 0;
@@ -135,7 +135,7 @@ public class CupService {
         }
     }
 
-    public CupFactory chooseCupType(int choice) {
+    public CupFactory chooseCupType(Integer choice) {
         List<String> cupTypes = getCupTypes();
         return chooseCupFactory(cupTypes.get(choice));
     }

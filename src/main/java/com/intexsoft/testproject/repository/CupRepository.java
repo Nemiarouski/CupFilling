@@ -21,7 +21,7 @@ public class CupRepository {
         return cupTypes;
     }
 
-    public void createCup(CupFactory cupFactory, int width, int height) {
+    public void createCup(CupFactory cupFactory, Integer width, Integer height) {
         cup = cupFactory.createCup(width, height);
     }
 
@@ -34,8 +34,6 @@ public class CupRepository {
         if (file.exists() && file.length() > 0) {
             ObjectMapper objectMapper = new ObjectMapper();
             cup = objectMapper.readValue(file, Cup.class);
-        } else {
-            System.out.println("Some problems");
         }
     }
 }

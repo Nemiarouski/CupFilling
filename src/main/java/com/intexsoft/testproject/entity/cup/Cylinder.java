@@ -3,12 +3,12 @@ package com.intexsoft.testproject.entity.cup;
 public class Cylinder extends Cup {
 
     public Cylinder() {}
-    public Cylinder(int width, int height) {
+    public Cylinder(Integer width, Integer height) {
         super(width, height);
     }
 
     @Override
-    public int findCapacity() {
+    public Integer findCapacity() {
         return (int) (((getWidth() * getWidth() * Math.PI) / 4) * getHeight());
     }
 

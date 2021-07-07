@@ -7,10 +7,10 @@ public enum LiquidType {
     OIL("Oil",900),
     CREAM("Cream",940);
 
-    private String type;
-    private int density;
+    private final String type;
+    private final Integer density;
 
-    LiquidType (String type, int density) {
+    LiquidType (String type, Integer density) {
         this.type = type;
         this.density = density;
     }
@@ -19,7 +19,7 @@ public enum LiquidType {
         return type;
     }
 
-    public int getDensity() {
+    public Integer getDensity() {
         return density;
     }
 
