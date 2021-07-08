@@ -1,17 +1,23 @@
 package com.intexsoft.testproject.entity.cup;
 
-import org.junit.jupiter.api.Assertions;
+import com.intexsoft.testproject.entity.liquids.LiquidType;
+import com.intexsoft.testproject.service.CupService;
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CupTest {
-    private final Cup cup = new Cylinder(5,5);
-    private final Cup cup2 = new Parallelepiped(5, 5);
 
     @Test
-    void findCapacity() {
-        int expect = cup.findCapacity();
-        Assertions.assertEquals(98, expect);
-        expect = cup2.findCapacity();
-        Assertions.assertEquals(125, expect);
+    void getCupCapacity() {
+        Cylinder cylinder = new Cylinder(5,5);
+        assertEquals(98, cylinder.getCapacity());
+    }
+
+    @Test
+    void addLiquid() {
+        CupService cupService = new CupService();
+        Parallelepiped parallelepiped = new Parallelepiped(10, 10);
+        cupService.addLiquid(LiquidType.CREAM, 50.0);
+
     }
 }

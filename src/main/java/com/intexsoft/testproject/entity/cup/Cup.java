@@ -13,7 +13,7 @@ import java.util.TreeSet;
 public abstract class Cup {
     private Integer width;
     private Integer height;
-    private Integer capacity;
+    private Double capacity;
     private Set<Liquid> liquid = new TreeSet<>(new LiquidComparator());
 
     public Cup() {}
@@ -24,7 +24,7 @@ public abstract class Cup {
         this.capacity = findCapacity();
     }
 
-    public abstract Integer findCapacity();
+    public abstract Double findCapacity();
 
     public Integer getWidth() {
         return width;
@@ -42,11 +42,11 @@ public abstract class Cup {
         this.height = height;
     }
 
-    public Integer getCapacity() {
+    public Double getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(Double capacity) {
         this.capacity = capacity;
     }
 

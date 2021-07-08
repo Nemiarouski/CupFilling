@@ -13,7 +13,8 @@ public class DeleteLiquidCommand implements Command {
     @Override
     public String execute() {
         System.out.println("How much liquid to delete:");
-        Integer volumeToDelete = ConsoleUtils.inputValidate();
+        Double volumeToDelete = ConsoleUtils.validateDouble();
+
         if (!cupService.getCup().getLiquid().isEmpty()) {
             cupService.deleteLiquid(volumeToDelete);
         } else {

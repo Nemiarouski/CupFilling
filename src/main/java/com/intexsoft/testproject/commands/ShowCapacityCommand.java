@@ -15,9 +15,9 @@ public class ShowCapacityCommand implements Command {
     @Override
     public String execute() {
         Cup cup = cupService.getCup();
-        Optional<Integer> capacity = cup.getLiquid().stream()
+        Optional<Double> capacity = cup.getLiquid().stream()
                 .map(Liquid::getVolume)
-                .reduce(Integer::sum);
+                .reduce(Double::sum);
 
         if (capacity.isPresent()) {
             System.out.println("[All capacity]: " + cup.getCapacity() + " cm\u00B3 [Free space]: " + (cup.getCapacity() - capacity.get()) + " cm\u00B3");

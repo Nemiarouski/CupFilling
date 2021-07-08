@@ -1,6 +1,8 @@
 package com.intexsoft.testproject.service;
 
 import com.intexsoft.testproject.entity.cup.Cup;
+import com.intexsoft.testproject.entity.cupfactory.FactoryType;
+import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.repository.CupRepository;
 import com.intexsoft.testproject.utils.LiquidComparator;
 import com.intexsoft.testproject.entity.cupfactory.CupFactory;
@@ -13,31 +15,29 @@ import java.util.*;
 public class CupService {
     private final CupRepository cupRepository = new CupRepository();
 
-    public List<String> getCupTypes() {
-        return cupRepository.getCupTypes();
-    }
-
     public Cup getCup() {
         return cupRepository.getCup();
     }
 
-    public void createCup(Integer choice, Integer width, Integer height) {
-        CupFactory cupFactory = chooseCupType(choice);
+    public void createCup(FactoryType factoryType, Integer width, Integer height) {
+        CupFactory cupFactory = chooseCupFactory(factoryType.getFactoryType());
         cupRepository.createCup(cupFactory, width, height);
     }
 
-    public void addLiquid(Liquid liquid) {
-        Integer volumeToAdd = liquid.getVolume();
+    public void addLiquid(LiquidType liquidType, Double volume) {
+        Liquid liquid = new Liquid(liquidType, volume);
+
+        Double volumeToAdd = liquid.getVolume();
         Set<Liquid> currentLiquid = cupRepository.getCup().getLiquid();
 
-        Integer freeCapacity = cupRepository.getCup().getCapacity() - usedCapacity(currentLiquid);
+        Double freeCapacity = cupRepository.getCup().getCapacity() - usedCapacity(currentLiquid);
 
         if (volumeToAdd > freeCapacity) {
             volumeToAdd = freeCapacity;
         }
 
         Optional<Liquid> optionalLiquid = currentLiquid.stream()
-                .filter((l -> l.getDensity().equals(liquid.getDensity())))
+                .filter((l -> l.getLiquidType().getDensity().equals(liquid.getLiquidType().getDensity())))
                 .findFirst();
 
         if (optionalLiquid.isPresent()) {
@@ -50,7 +50,7 @@ public class CupService {
         cupRepository.getCup().setLiquid(currentLiquid);
     }
 
-    public void deleteLiquid(Integer volumeToDelete) {
+    public void deleteLiquid(Double volumeToDelete) {
         Set<Liquid> currentLiquid = getCup().getLiquid();
 
         if (volumeToDelete > usedCapacity(currentLiquid)) {
@@ -63,10 +63,10 @@ public class CupService {
 
             if (layerOfLiquid.isPresent() && layerOfLiquid.get().getVolume() > volumeToDelete) {
                 layerOfLiquid.get().setVolume(layerOfLiquid.get().getVolume() - volumeToDelete);
-                volumeToDelete = 0;
+                volumeToDelete = 0.0;
             } else if (layerOfLiquid.isPresent()) {
                 volumeToDelete = volumeToDelete - layerOfLiquid.get().getVolume();
-                layerOfLiquid.get().setVolume(0);
+                layerOfLiquid.get().setVolume(0.0);
             }
             i++;
         }
@@ -74,14 +74,14 @@ public class CupService {
         getCup().setLiquid(currentLiquid);
     }
 
-    public void changeCup(Cup oldCup, Integer choice, Integer width, Integer height) {
-        createCup(choice, width, height);
+    public void changeCup(Cup oldCup, FactoryType factoryType, Integer width, Integer height) {
+        createCup(factoryType, width, height);
 
-        Integer oldCapacity = oldCup.getLiquid().stream()
+        Double oldCapacity = oldCup.getLiquid().stream()
                 .map(Liquid::getVolume)
-                .reduce(Integer::sum).orElse(0);
+                .reduce(Double::sum).orElse(0.0);
 
-        Integer newCapacity = getCup().getCapacity();
+        Double newCapacity = getCup().getCapacity();
 
         if (oldCapacity > newCapacity) {
             int i = 0;
@@ -98,7 +98,7 @@ public class CupService {
                 } else if (layerOfLiquid.isPresent()) {
                     layerOfLiquid.get().setVolume(layerOfLiquid.get().getVolume() - (layerOfLiquid.get().getVolume() - newCapacity));
                     newLiquidSet.add(layerOfLiquid.get());
-                    newCapacity = 0;
+                    newCapacity = 0.0;
                 }
                 i++;
             }
@@ -124,11 +124,6 @@ public class CupService {
         }
     }
 
-    public CupFactory chooseCupType(Integer choice) {
-        List<String> cupTypes = getCupTypes();
-        return chooseCupFactory(cupTypes.get(choice));
-    }
-
     public CupFactory chooseCupFactory(String typeOfCup) {
         List<CupFactory> factories = List.of(new CylinderFactory(), new ParallelepipedFactory());
         for (CupFactory cupFactory : factories) {
@@ -139,18 +134,13 @@ public class CupService {
         return null;
     }
 
-    public Integer usedCapacity(Set<Liquid> currentLiquid) {
-        Integer generalLiquidInCup = 0;
+    public Double usedCapacity(Set<Liquid> currentLiquid) {
+        Double generalLiquidInCup = 0.0;
         for (Liquid liquid : currentLiquid) {
             generalLiquidInCup += liquid.getVolume();
         }
         return generalLiquidInCup;
     }
 
-    public void showCupTypes() {
-        List<String> cupTypes = getCupTypes();
-        for (int i = 0; i < cupTypes.size(); i++) {
-            System.out.println((i + 1) + ") " + cupTypes.get(i));
-        }
-    }
+
 }

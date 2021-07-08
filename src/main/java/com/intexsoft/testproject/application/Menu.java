@@ -46,8 +46,8 @@ public class Menu {
         String result;
         do {
             showMenu();
-            choice = ConsoleUtils.inputFlagValidate(menuCommands.size()) - 1;
-            result = interpreter.start(menuCommands.get(choice));
+            choice = ConsoleUtils.validateIntToValue(menuCommands.size());
+            result = interpreter.start(menuCommands.get(choice - 1));
         } while (!result.equals("exit"));
     }
 

@@ -1,7 +1,9 @@
 package com.intexsoft.testproject.commands;
 
+import com.intexsoft.testproject.entity.cupfactory.FactoryType;
 import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
+import java.util.List;
 
 public class CreateNewCupCommand implements Command {
     private final CupService cupService;
@@ -12,22 +14,36 @@ public class CreateNewCupCommand implements Command {
 
     @Override
     public String execute() {
-        System.out.println("\nChoose the type of cup:");
-        cupService.showCupTypes();
-        Integer choice = ConsoleUtils.inputFlagValidate(cupService.getCupTypes().size()) - 1;
+        List<FactoryType> factories = List.of(FactoryType.values());
+
+        showCupTypes(factories);
+
+        System.out.println("\nChoose cup type:");
+        FactoryType factoryType = getFactoryType(factories);
 
         System.out.println("Input cup width:");
-        Integer width = ConsoleUtils.inputValidate();
+        Integer width = ConsoleUtils.validateInt();
 
         System.out.println("Input cup height:");
-        Integer height = ConsoleUtils.inputValidate();
+        Integer height = ConsoleUtils.validateInt();
 
         if (cupService.getCup() == null) {
-            cupService.createCup(choice, width, height);
+            cupService.createCup(factoryType, width, height);
         } else {
-            cupService.changeCup(cupService.getCup(), choice, width, height);
+            cupService.changeCup(cupService.getCup(), factoryType, width, height);
         }
         return "work";
+    }
+
+    private FactoryType getFactoryType(List<FactoryType> factories) {
+        int choice = ConsoleUtils.validateIntToValue(factories.size());
+        return factories.get(choice - 1);
+    }
+
+    private void showCupTypes(List<FactoryType> factories) {
+        for (int i = 0; i < factories.size(); i++) {
+            System.out.println((i + 1) + ") " + factories.get(i).getFactoryType());
+        }
     }
 
     @Override

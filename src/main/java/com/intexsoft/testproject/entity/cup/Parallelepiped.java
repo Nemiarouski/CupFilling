@@ -1,5 +1,8 @@
 package com.intexsoft.testproject.entity.cup;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Parallelepiped extends Cup {
 
     public Parallelepiped() {}
@@ -8,8 +11,11 @@ public class Parallelepiped extends Cup {
     }
 
     @Override
-    public Integer findCapacity() {
-        return getWidth() * getWidth() * getHeight();
+    public Double findCapacity() {
+        double result = getWidth() * getWidth() * getHeight();
+        BigDecimal shortResult = new BigDecimal(result);
+        shortResult = shortResult.setScale(3, RoundingMode.HALF_UP);
+        return shortResult.doubleValue();
     }
 
     @Override

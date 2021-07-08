@@ -1,15 +1,21 @@
 package com.intexsoft.testproject.entity.cup;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Cylinder extends Cup {
 
     public Cylinder() {}
-    public Cylinder(Integer width, Integer height) {
-        super(width, height);
+    public Cylinder(Integer diameter, Integer height) {
+        super(diameter, height);
     }
 
     @Override
-    public Integer findCapacity() {
-        return (int) (((getWidth() * getWidth() * Math.PI) / 4) * getHeight());
+    public Double findCapacity() {
+        double result = (getWidth() * getWidth() * getHeight() * Math.PI) / 4;
+        BigDecimal shortResult = new BigDecimal(result);
+        shortResult = shortResult.setScale(3, RoundingMode.HALF_UP);
+        return shortResult.doubleValue();
     }
 
     @Override

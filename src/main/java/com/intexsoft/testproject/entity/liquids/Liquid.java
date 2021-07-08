@@ -1,46 +1,30 @@
 package com.intexsoft.testproject.entity.liquids;
 
 public class Liquid {
-    private Integer volume;
-    private Integer density;
-    private String type;
+    private final LiquidType liquidType;
+    private Double volume;
 
-    public Liquid() {
-    }
-    public Liquid(Integer volume, LiquidType liquidType) {
+    public Liquid(LiquidType liquidType, Double volume) {
+        this.liquidType = liquidType;
         this.volume = volume;
-        this.density = liquidType.getDensity();
-        this.type = liquidType.getType();
     }
 
-    public Integer getVolume() {
+    public Double getVolume() {
         return volume;
     }
 
-    public void setVolume(Integer volume) {
+    public void setVolume(Double volume) {
         this.volume = volume;
     }
 
-    public Integer getDensity() {
-        return density;
-    }
-
-    public void setDensity(Integer density) {
-        this.density = density;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public LiquidType getLiquidType() {
+        return liquidType;
     }
 
     @Override
     public String toString() {
-        return "[" + type + "]:" +
+        return "[" + liquidType.getType() + "]:" +
                 " [Volume]: " + volume +
-                " cm\u00B3 [Density]: " + density + " кг/m\u00B3";
+                " cm\u00B3 [Density]: " + liquidType.getDensity() + " кг/m\u00B3";
     }
 }

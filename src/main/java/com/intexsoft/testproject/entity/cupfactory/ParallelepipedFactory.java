@@ -12,6 +12,6 @@ public class ParallelepipedFactory implements CupFactory{
 
     @Override
     public String factoryType() {
-        return "Parallelepiped";
+        return FactoryType.PARALLELEPIPED.getFactoryType();
     }
 }

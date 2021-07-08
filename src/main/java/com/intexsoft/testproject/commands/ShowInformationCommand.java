@@ -8,7 +8,7 @@ public class ShowInformationCommand implements Command {
     private final List<Command> showCommands;
 
     public ShowInformationCommand(CupService cupService) {
-        this.showCommands = List.of(new ShowSetCommand(cupService), new ShowMaxCommand(cupService), new ShowCapacityCommand(cupService));
+        this.showCommands = List.of(new ShowLiquidInfoCommand(cupService), new ShowMaxValueCommand(cupService), new ShowCapacityCommand(cupService));
     }
 
     @Override
@@ -16,8 +16,8 @@ public class ShowInformationCommand implements Command {
         for (int i = 0; i < showCommands.size(); i++) {
             System.out.println((i + 1) + ") " + showCommands.get(i).name());
         }
-        int choice = ConsoleUtils.inputFlagValidate(showCommands.size()) - 1;
-        showCommands.get(choice).execute();
+        int choice = ConsoleUtils.validateIntToValue(showCommands.size());
+        showCommands.get(choice - 1).execute();
         return "work";
     }
 

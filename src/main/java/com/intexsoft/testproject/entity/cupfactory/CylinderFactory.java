@@ -12,6 +12,6 @@ public class CylinderFactory implements CupFactory {
 
     @Override
     public String factoryType() {
-        return "Cylinder";
+        return FactoryType.CYLINDER.getFactoryType();
     }
 }

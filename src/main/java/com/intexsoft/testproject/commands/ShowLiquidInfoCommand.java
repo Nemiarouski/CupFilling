@@ -3,22 +3,23 @@ package com.intexsoft.testproject.commands;
 import com.intexsoft.testproject.entity.liquids.Liquid;
 import com.intexsoft.testproject.service.CupService;
 import java.util.Comparator;
-import java.util.Optional;
+import java.util.Set;
 
-public class ShowMaxCommand implements Command {
+public class ShowLiquidInfoCommand implements Command {
     private final CupService cupService;
 
-    public ShowMaxCommand(CupService cupService) {
+    public ShowLiquidInfoCommand(CupService cupService) {
         this.cupService = cupService;
     }
 
     @Override
     public String execute() {
-        Optional<Liquid> max = cupService.getCup().getLiquid().stream()
-                .max(Comparator.comparing(Liquid::getVolume));
+        Set<Liquid> setLiquid = cupService.getCup().getLiquid();
 
-        if (max.isPresent()) {
-            System.out.println("[Max liquid]: " + max.get());
+        if (setLiquid.size() != 0) {
+            setLiquid.stream()
+                    .sorted(Comparator.comparing(l -> l.getLiquidType().getDensity()))
+                    .forEach(System.out::println);
         } else {
             System.out.println("Cup is empty.");
         }
@@ -32,6 +33,6 @@ public class ShowMaxCommand implements Command {
 
     @Override
     public String name() {
-        return "Max liquid";
+        return "Sorted liquid";
     }
 }
