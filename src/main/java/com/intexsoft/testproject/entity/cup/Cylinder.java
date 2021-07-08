@@ -12,7 +12,7 @@ public class Cylinder extends Cup {
 
     @Override
     public Double findCapacity() {
-        double result = (getWidth() * getWidth() * getHeight() * Math.PI) / 4;
+        double result = ((getWidth() * getWidth() * getHeight() * Math.PI) / 4);
         BigDecimal shortResult = new BigDecimal(result);
         shortResult = shortResult.setScale(3, RoundingMode.HALF_UP);
         return shortResult.doubleValue();

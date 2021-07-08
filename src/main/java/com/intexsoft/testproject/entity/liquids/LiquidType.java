@@ -22,12 +22,4 @@ public enum LiquidType {
     public Integer getDensity() {
         return density;
     }
-
-    @Override
-    public String toString() {
-        return "LiquidType{" +
-                "type='" + type + '\'' +
-                ", density=" + density +
-                '}';
-    }
 }
