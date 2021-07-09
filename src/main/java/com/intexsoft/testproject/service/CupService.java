@@ -38,13 +38,13 @@ public class CupService {
 
         Double freeCapacity = cup.getCapacity() - usedCapacity(currentCupLiquid);
 
-        if (volumeToAdd > freeCapacity) {
-            volumeToAdd = freeCapacity;
-        }
-
         Optional<Liquid> optionalLiquid = currentCupLiquid.stream()
                 .filter((l -> l.getLiquidType().getDensity().equals(liquid.getLiquidType().getDensity())))
                 .findFirst();
+
+        if (volumeToAdd > freeCapacity) {
+            deleteLiquid(volumeToAdd - freeCapacity);
+        }
 
         if (optionalLiquid.isPresent()) {
             Liquid currentLiquid = optionalLiquid.get();
@@ -53,6 +53,7 @@ public class CupService {
             liquid.setVolume(volumeToAdd);
             currentCupLiquid.add(liquid);
         }
+
         currentCupLiquid.removeIf(l -> l.getVolume() == 0);
         getCup().setLiquid(currentCupLiquid);
     }
