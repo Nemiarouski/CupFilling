@@ -14,8 +14,9 @@ public class CupRepository {
         return cup;
     }
 
-    public void createCup(CupFactory cupFactory, Integer width, Integer height) {
+    public Cup createCup(CupFactory cupFactory, Integer width, Integer height) {
         cup = cupFactory.createCup(width, height);
+        return cup;
     }
 
     public void saveTo() throws IOException {

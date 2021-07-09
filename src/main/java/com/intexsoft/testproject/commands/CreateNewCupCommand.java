@@ -1,5 +1,6 @@
 package com.intexsoft.testproject.commands;
 
+import com.intexsoft.testproject.entity.cup.Cup;
 import com.intexsoft.testproject.entity.cupfactory.FactoryType;
 import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
@@ -22,15 +23,17 @@ public class CreateNewCupCommand implements Command {
         FactoryType factoryType = getFactoryType(factories);
 
         System.out.println("Input cup width:");
-        Integer width = ConsoleUtils.validateInt();
+        int width = ConsoleUtils.validateInt();
 
         System.out.println("Input cup height:");
-        Integer height = ConsoleUtils.validateInt();
+        int height = ConsoleUtils.validateInt();
 
-        if (cupService.getCup() == null) {
+        Cup cup = cupService.getCup();
+
+        if (cup == null) {
             cupService.createCup(factoryType, width, height);
         } else {
-            cupService.changeCup(cupService.getCup(), factoryType, width, height);
+            cupService.changeCup(cup, factoryType, width, height);
         }
         return "work";
     }

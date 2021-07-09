@@ -18,8 +18,8 @@ public class CupService {
         return cupRepository.getCup();
     }
 
-    public void createCup(FactoryType factoryType, Integer width, Integer height) {
-        cupRepository.createCup(factoryType.getCupFactory(), width, height);
+    public Cup createCup(FactoryType factoryType, Integer width, Integer height) {
+        return cupRepository.createCup(factoryType.getCupFactory(), width, height);
     }
 
     public void addLiquid(LiquidType liquidType, Double volume) {
@@ -27,45 +27,36 @@ public class CupService {
         Set<Liquid> currentCupLiquid = cup.getLiquid();
 
         Liquid liquid = new Liquid(liquidType, volume);
-        Double volumeToAdd = liquid.getVolume();
 
-        Double freeCapacity = cup.getCapacity() - usedCapacity(currentCupLiquid);
-
-        if (volumeToAdd >= cup.getCapacity()) {
-            volumeToAdd = cup.getCapacity();
-        }
-
-        Optional<Liquid> optionalLiquid = currentCupLiquid.stream()
-                .filter((l -> l.getLiquidType().getDensity().equals(liquid.getLiquidType().getDensity())))
+        Optional<Liquid> layer = currentCupLiquid.stream()
+                .filter(l -> l.getLiquidType().equals(liquid.getLiquidType()))
                 .findFirst();
 
-        if (optionalLiquid.isPresent()) {
-            if (freeCapacity < volumeToAdd) {
-                deleteLiquid(volumeToAdd - freeCapacity);
-            }
-            Liquid currentLiquid = optionalLiquid.get();
-            currentLiquid.setVolume(currentLiquid.getVolume() + volumeToAdd);
+        if (layer.isPresent()) {
+            layer.get().addVolume(liquid.getVolume());
         } else {
-            if (freeCapacity < volumeToAdd) {
-                deleteLiquid(volumeToAdd - freeCapacity);
-            }
-            liquid.setVolume(volumeToAdd);
             currentCupLiquid.add(liquid);
         }
-        currentCupLiquid.removeIf(l -> l.getVolume() == 0);
-        getCup().setLiquid(currentCupLiquid);
+
+        //trimToCapacity(currentCupLiquid, cup.getCapacity());
+
+        double volumeToDelete = usedCapacity(currentCupLiquid) - cup.getCapacity();
+        deleteLiquid(currentCupLiquid, volumeToDelete);
     }
 
     public void deleteLiquid(Double volumeToDelete) {
         Set<Liquid> currentLiquid = getCup().getLiquid();
+        deleteLiquid(currentLiquid, volumeToDelete);
+    }
 
-        if (volumeToDelete > usedCapacity(currentLiquid)) {
-            volumeToDelete = usedCapacity(currentLiquid);
+    private void deleteLiquid(Set<Liquid> liquids, double volumeToDelete) {
+        if (volumeToDelete > usedCapacity(liquids)) {
+            volumeToDelete = usedCapacity(liquids);
         }
 
         int i = 0;
         while (volumeToDelete > 0) {
-            Optional<Liquid> layerOfLiquid = currentLiquid.stream().skip(i).findFirst();
+            Optional<Liquid> layerOfLiquid = liquids.stream().skip(i).findFirst();
 
             if (layerOfLiquid.isPresent()) {
                 Liquid layer = layerOfLiquid.get();
@@ -79,26 +70,29 @@ public class CupService {
             }
             i++;
         }
-        currentLiquid.removeIf(l -> l.getVolume() == 0);
-        getCup().setLiquid(currentLiquid);
+        liquids.removeIf(l -> l.getVolume() == 0);
     }
 
     public void changeCup(Cup oldCup, FactoryType factoryType, Integer width, Integer height) {
-        createCup(factoryType, width, height);
+        Cup cup = createCup(factoryType, width, height);
+        trimToCapacity(oldCup.getLiquid(), cup.getCapacity());
+    }
 
-        Double oldCapacity = oldCup.getLiquid().stream()
+
+    private void trimToCapacity(Set<Liquid> liquids, double capacity) {
+        double oldCapacity = liquids.stream()
                 .map(Liquid::getVolume)
                 .reduce(Double::sum).orElse(0.0);
 
-        Double newCapacity = getCup().getCapacity();
+        double newCapacity = capacity;
 
         if (oldCapacity > newCapacity) {
             int i = 1;
             Set<Liquid> newLiquidSet = new TreeSet<>(new LiquidComparator());
 
             while (newCapacity > 0) {
-                int count = oldCup.getLiquid().size();
-                Optional<Liquid> layerOfLiquid = oldCup.getLiquid().stream()
+                int count = liquids.size();
+                Optional<Liquid> layerOfLiquid = liquids.stream()
                         .skip(count - i)
                         .findFirst();
 
@@ -117,9 +111,10 @@ public class CupService {
             }
             getCup().setLiquid(newLiquidSet);
         } else {
-            getCup().setLiquid(oldCup.getLiquid());
+            getCup().setLiquid(liquids);
         }
     }
+
 
     public void save() {
         try {

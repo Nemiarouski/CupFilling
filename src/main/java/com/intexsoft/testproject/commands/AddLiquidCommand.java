@@ -22,7 +22,7 @@ public class AddLiquidCommand implements Command {
         LiquidType liquidType = getLiquidType(liquidTypes);
 
         System.out.println("How much liquid to add?");
-        Double volume = ConsoleUtils.validateDouble();
+        double volume = ConsoleUtils.validateDouble();
 
         cupService.addLiquid(liquidType, volume);
         return "work";

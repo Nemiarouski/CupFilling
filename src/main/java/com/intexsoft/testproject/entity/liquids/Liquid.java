@@ -5,7 +5,7 @@ import java.math.RoundingMode;
 
 public class Liquid {
     private final LiquidType liquidType;
-    private Double volume;
+    private double volume;
 
     public Liquid(LiquidType liquidType, Double volume) {
         this.liquidType = liquidType;
@@ -16,6 +16,10 @@ public class Liquid {
         BigDecimal shortVolume = new BigDecimal(volume);
         shortVolume = shortVolume.setScale(3, RoundingMode.HALF_UP);
         return shortVolume.doubleValue();
+    }
+
+    public void addVolume(double volume) {
+        this.volume += volume;
     }
 
     public void setVolume(Double volume) {
