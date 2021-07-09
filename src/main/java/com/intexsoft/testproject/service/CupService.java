@@ -22,11 +22,18 @@ public class CupService {
         cupRepository.createCup(factoryType.getCupFactory(), width, height);
     }
 
+    /*
+     * 1. Выбираю тип жидкости и ее количество
+     * 2. Проверяю емкость стакана на вместимость
+     * 3. Если емкости хватает - найти по плотности похожее и добавить
+     * 4. Если емкости не хватает - добавить сколько есть емкости
+     * 5. Взять менее плотную жидкость и вылить ее. Добавить более плотное.
+     * */
     public void addLiquid(LiquidType liquidType, Double volume) {
         Liquid liquid = new Liquid(liquidType, volume);
         Double volumeToAdd = liquid.getVolume();
 
-        Cup cup = cupRepository.getCup();
+        Cup cup = getCup();
         Set<Liquid> currentCupLiquid = cup.getLiquid();
 
         Double freeCapacity = cup.getCapacity() - usedCapacity(currentCupLiquid);
@@ -46,7 +53,8 @@ public class CupService {
             liquid.setVolume(volumeToAdd);
             currentCupLiquid.add(liquid);
         }
-        cupRepository.getCup().setLiquid(currentCupLiquid);
+        currentCupLiquid.removeIf(l -> l.getVolume() == 0);
+        getCup().setLiquid(currentCupLiquid);
     }
 
     public void deleteLiquid(Double volumeToDelete) {
@@ -86,12 +94,13 @@ public class CupService {
         Double newCapacity = getCup().getCapacity();
 
         if (oldCapacity > newCapacity) {
-            int i = 0;
+            int i = 1;
             Set<Liquid> newLiquidSet = new TreeSet<>(new LiquidComparator());
 
             while (newCapacity > 0) {
+                int count = oldCup.getLiquid().size();
                 Optional<Liquid> layerOfLiquid = oldCup.getLiquid().stream()
-                        .skip(i)
+                        .skip(count - i)
                         .findFirst();
 
                 if (layerOfLiquid.isPresent()) {
@@ -107,9 +116,9 @@ public class CupService {
                 }
                 i++;
             }
-            cupRepository.getCup().setLiquid(newLiquidSet);
+            getCup().setLiquid(newLiquidSet);
         } else {
-            cupRepository.getCup().setLiquid(oldCup.getLiquid());
+            getCup().setLiquid(oldCup.getLiquid());
         }
     }
 
