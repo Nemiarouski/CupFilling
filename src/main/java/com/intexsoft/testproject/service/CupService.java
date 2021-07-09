@@ -6,7 +6,6 @@ import com.intexsoft.testproject.entity.liquids.Liquid;
 import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.repository.CupRepository;
 import com.intexsoft.testproject.utils.LiquidComparator;
-
 import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
@@ -23,55 +22,35 @@ public class CupService {
         cupRepository.createCup(factoryType.getCupFactory(), width, height);
     }
 
-    /*
-     * Жидкость пришла
-     * Ее плотность > плотности жидкостей в стакане
-     * Если больше - вытеснять первый слой
-     * Проверка на вмещаемость
-     * Если больше - вытеснить первый слой
-     * Проверка на вмещаемость
-     * Залить в стакан
-     * Иначе добавить сколько возможно
-     * */
-
     public void addLiquid(LiquidType liquidType, Double volume) {
         Cup cup = getCup();
         Set<Liquid> currentCupLiquid = cup.getLiquid();
 
         Liquid liquid = new Liquid(liquidType, volume);
-        Double addLiquidVolume = liquid.getVolume();
-        Integer addLiquidDensity = liquid.getLiquidType().getDensity();
+        Double volumeToAdd = liquid.getVolume();
 
-        double freeCapacity = cup.getCapacity() - usedCapacity(currentCupLiquid);
+        Double freeCapacity = cup.getCapacity() - usedCapacity(currentCupLiquid);
 
-        if (addLiquidVolume > freeCapacity) {
-            int i = 1;
-            while (addLiquidVolume > 0) {
-                int count = currentCupLiquid.size();
-                Optional<Liquid> layer = currentCupLiquid.stream()
-                        .skip(count - i)
-                        .findFirst();
+        if (volumeToAdd >= cup.getCapacity()) {
+            volumeToAdd = cup.getCapacity();
+        }
 
-                if (layer.isPresent() && layer.get().getLiquidType().getDensity().equals(addLiquidDensity)) {
-                    layer.get().setVolume(layer.get().getVolume() + addLiquidVolume);
-                    addLiquidVolume = 0.0;
-                }
-                i++;
+        Optional<Liquid> optionalLiquid = currentCupLiquid.stream()
+                .filter((l -> l.getLiquidType().getDensity().equals(liquid.getLiquidType().getDensity())))
+                .findFirst();
+
+        if (optionalLiquid.isPresent()) {
+            if (freeCapacity < volumeToAdd) {
+                deleteLiquid(volumeToAdd - freeCapacity);
             }
+            Liquid currentLiquid = optionalLiquid.get();
+            currentLiquid.setVolume(currentLiquid.getVolume() + volumeToAdd);
         } else {
-            Optional<Liquid> optionalLiquid = currentCupLiquid.stream()
-                    .filter((l -> l.getLiquidType().getDensity().equals(liquid.getLiquidType().getDensity())))
-                    .findFirst();
-
-            if (freeCapacity > addLiquidVolume) {
-                if (optionalLiquid.isPresent()) {
-                    Liquid currentLiquid = optionalLiquid.get();
-                    currentLiquid.setVolume(currentLiquid.getVolume() + addLiquidVolume);
-                } else {
-                    liquid.setVolume(addLiquidVolume);
-                    currentCupLiquid.add(liquid);
-                }
+            if (freeCapacity < volumeToAdd) {
+                deleteLiquid(volumeToAdd - freeCapacity);
             }
+            liquid.setVolume(volumeToAdd);
+            currentCupLiquid.add(liquid);
         }
         currentCupLiquid.removeIf(l -> l.getVolume() == 0);
         getCup().setLiquid(currentCupLiquid);
