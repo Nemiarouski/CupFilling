@@ -18,9 +18,10 @@ public class ConsoleUtils {
                 scanner.next();
             }
             inputNumber = scanner.nextInt();
-        } while (inputNumber <= 0 | inputNumber > value);
+        } while (inputNumber <= 0 || inputNumber > value);
         return inputNumber;
     }
+
 
     public static int validateInt() {
         int inputNumber;

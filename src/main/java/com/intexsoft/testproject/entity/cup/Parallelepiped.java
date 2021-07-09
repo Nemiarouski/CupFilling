@@ -12,10 +12,10 @@ public class Parallelepiped extends Cup {
 
     @Override
     public Double findCapacity() {
-        double result = getWidth() * getWidth() * getHeight();
-        BigDecimal shortResult = new BigDecimal(result);
-        shortResult = shortResult.setScale(3, RoundingMode.HALF_UP);
-        return shortResult.doubleValue();
+        double capacity = getWidth() * getWidth() * getHeight();
+        BigDecimal shortCapacity = new BigDecimal(capacity);
+        shortCapacity = shortCapacity.setScale(3, RoundingMode.HALF_UP);
+        return shortCapacity.doubleValue();
     }
 
     @Override
