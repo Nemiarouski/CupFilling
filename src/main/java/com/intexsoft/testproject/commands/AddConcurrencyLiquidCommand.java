@@ -19,7 +19,6 @@ public class AddConcurrencyLiquidCommand implements Command {
     @Override
     public String execute() {
         List<LiquidType> liquidTypes = List.of(LiquidType.values());
-        showLiquidTypes(liquidTypes);
 
         List<LiquidType> liquidsToAdd = multiplyChoice(liquidTypes);
 
@@ -54,6 +53,7 @@ public class AddConcurrencyLiquidCommand implements Command {
         int count = ConsoleUtils.validateInt();
 
         while (count > 0) {
+            showLiquidTypes(liquidTypes);
             System.out.println("Choose the type of liquid:");
             LiquidType liquidType = getLiquidType(liquidTypes);
             liquidsToAdd.add(liquidType);
@@ -69,7 +69,7 @@ public class AddConcurrencyLiquidCommand implements Command {
 
     @Override
     public void show() {
-        System.out.println("Add liquid with concurrency.");
+        System.out.println("Add liquid with concurrency method:");
     }
 
     @Override

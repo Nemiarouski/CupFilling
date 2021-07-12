@@ -34,6 +34,6 @@ public class DeleteLiquidCommand implements Command {
 
     @Override
     public String name() {
-        return "Delete cup";
+        return "Delete liquid";
     }
 }
