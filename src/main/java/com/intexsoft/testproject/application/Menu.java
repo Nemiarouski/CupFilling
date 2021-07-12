@@ -14,7 +14,7 @@ public class Menu {
     private final Interpreter interpreter = new Interpreter();
     private final ConsoleUtils consoleUtils = new ConsoleUtils();
     private final CupRepository cupRepository = new CupRepository();
-    private final CupService cupService = new CupService(cupRepository, consoleUtils);
+    private final CupService cupService = new CupService(cupRepository);
 
     public void startMenu() {
         fillStartCommands();
@@ -24,11 +24,11 @@ public class Menu {
     }
 
     public void fillMainCommands() {
-        addCommand(menuCommands, new AddLiquidCommand(cupService));
-        addCommand(menuCommands, new AddConcurrencyLiquidCommand(cupService));
-        addCommand(menuCommands, new DeleteLiquidCommand(cupService));
-        addCommand(menuCommands, new ShowInformationCommand(cupService));
-        addCommand(menuCommands, new CreateNewCupCommand(cupService));
+        addCommand(menuCommands, new AddLiquidCommand(cupService, consoleUtils));
+        addCommand(menuCommands, new AddConcurrencyLiquidCommand(cupService, consoleUtils));
+        addCommand(menuCommands, new DeleteLiquidCommand(cupService, consoleUtils));
+        addCommand(menuCommands, new ShowInformationCommand(cupService, consoleUtils));
+        addCommand(menuCommands, new CreateNewCupCommand(cupService, consoleUtils));
         addCommand(menuCommands, new SaveCupCommand(cupService));
         addCommand(menuCommands, new DownloadCupCommand(cupService));
         addCommand(menuCommands, new ExitCommand());
@@ -36,7 +36,7 @@ public class Menu {
 
     public void fillStartCommands() {
         addCommand(startCommands, new StartCommand());
-        addCommand(startCommands, new CreateNewCupCommand(cupService));
+        addCommand(startCommands, new CreateNewCupCommand(cupService, consoleUtils));
     }
 
     public void initCup() {

@@ -2,6 +2,7 @@ package com.intexsoft.testproject.commands;
 
 import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.service.CupService;
+import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -9,9 +10,11 @@ import java.util.concurrent.Executors;
 
 public class AddConcurrencyLiquidCommand implements Command {
     private final CupService cupService;
+    private final ConsoleUtils consoleUtils;
 
-    public AddConcurrencyLiquidCommand(CupService cupService) {
+    public AddConcurrencyLiquidCommand(CupService cupService, ConsoleUtils consoleUtils) {
         this.cupService = cupService;
+        this.consoleUtils = consoleUtils;
     }
 
     @Override
@@ -21,7 +24,7 @@ public class AddConcurrencyLiquidCommand implements Command {
         List<LiquidType> liquidsToAdd = multiplyChoice(liquidTypes);
 
         System.out.println("How much liquid to add?");
-        double volume = cupService.getConsoleUtils().validateDouble();
+        double volume = consoleUtils.validateDouble();
 
         addConcurrencyLiquid(volume, liquidsToAdd);
         return "work";
@@ -48,7 +51,7 @@ public class AddConcurrencyLiquidCommand implements Command {
         List<LiquidType> liquidsToAdd = new ArrayList<>();
 
         System.out.println("How many times to add?");
-        int count = cupService.getConsoleUtils().validateInt();
+        int count = consoleUtils.validateInt();
 
         while (count > 0) {
             showLiquidTypes(liquidTypes);
@@ -61,7 +64,7 @@ public class AddConcurrencyLiquidCommand implements Command {
     }
 
     private LiquidType getLiquidType(List<LiquidType> liquidTypes) {
-        int choice = cupService.getConsoleUtils().validateIntToValue(liquidTypes.size());
+        int choice = consoleUtils.validateIntToValue(liquidTypes.size());
         return liquidTypes.get(choice - 1);
     }
 

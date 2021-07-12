@@ -3,13 +3,16 @@ package com.intexsoft.testproject.commands;
 import com.intexsoft.testproject.entity.cup.Cup;
 import com.intexsoft.testproject.entity.cupfactory.FactoryType;
 import com.intexsoft.testproject.service.CupService;
+import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.List;
 
 public class CreateNewCupCommand implements Command {
     private final CupService cupService;
+    private final ConsoleUtils consoleUtils;
 
-    public CreateNewCupCommand(CupService cupService) {
+    public CreateNewCupCommand(CupService cupService, ConsoleUtils consoleUtils) {
         this.cupService = cupService;
+        this.consoleUtils = consoleUtils;
     }
 
     @Override
@@ -22,10 +25,10 @@ public class CreateNewCupCommand implements Command {
         FactoryType factoryType = getFactoryType(factories);
 
         System.out.println("Input cup width:");
-        int width = cupService.getConsoleUtils().validateInt();
+        int width = consoleUtils.validateInt();
 
         System.out.println("Input cup height:");
-        int height = cupService.getConsoleUtils().validateInt();
+        int height = consoleUtils.validateInt();
 
         Cup cup = cupService.getCup();
 
@@ -38,7 +41,7 @@ public class CreateNewCupCommand implements Command {
     }
 
     private FactoryType getFactoryType(List<FactoryType> factories) {
-        int choice = cupService.getConsoleUtils().validateIntToValue(factories.size());
+        int choice = consoleUtils.validateIntToValue(factories.size());
         return factories.get(choice - 1);
     }
 

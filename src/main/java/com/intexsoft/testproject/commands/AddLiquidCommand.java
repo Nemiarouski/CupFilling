@@ -2,13 +2,16 @@ package com.intexsoft.testproject.commands;
 
 import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.service.CupService;
+import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.List;
 
 public class AddLiquidCommand implements Command {
     private final CupService cupService;
+    private final ConsoleUtils consoleUtils;
 
-    public AddLiquidCommand(CupService cupService) {
+    public AddLiquidCommand(CupService cupService, ConsoleUtils consoleUtils) {
         this.cupService = cupService;
+        this.consoleUtils = consoleUtils;
     }
 
     @Override
@@ -21,14 +24,14 @@ public class AddLiquidCommand implements Command {
         LiquidType liquidType = getLiquidType(liquidTypes);
 
         System.out.println("How much liquid to add?");
-        double volume = cupService.getConsoleUtils().validateDouble();
+        double volume = consoleUtils.validateDouble();
 
         cupService.addLiquid(liquidType, volume);
         return "work";
     }
 
-    public LiquidType getLiquidType(List<LiquidType> liquidTypes) {
-        int choice = cupService.getConsoleUtils().validateIntToValue(liquidTypes.size());
+    LiquidType getLiquidType(List<LiquidType> liquidTypes) {
+        int choice = consoleUtils.validateIntToValue(liquidTypes.size());
         return liquidTypes.get(choice - 1);
     }
 

@@ -4,7 +4,6 @@ import com.intexsoft.testproject.commands.AddLiquidCommand;
 import com.intexsoft.testproject.entity.cup.Cup;
 import com.intexsoft.testproject.entity.cup.Parallelepiped;
 import com.intexsoft.testproject.entity.cupfactory.FactoryType;
-import com.intexsoft.testproject.entity.cupfactory.ParallelepipedFactory;
 import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.repository.CupRepository;
 import com.intexsoft.testproject.utils.ConsoleUtils;
@@ -13,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,9 +21,8 @@ class CupServiceTest {
     @Test
     void addMoreThanCapacity() {
         CupRepository cupRepository = new CupRepository();
-        ConsoleUtils consoleUtils = new ConsoleUtils();
 
-        CupService cupService = new CupService(cupRepository, consoleUtils);
+        CupService cupService = new CupService(cupRepository);
         cupService.createCup(FactoryType.CYLINDER, 5, 5);
         cupService.addLiquid(LiquidType.CREAM, 150.0);
         cupService.addLiquid(LiquidType.OIL, 150.0);
@@ -33,9 +32,8 @@ class CupServiceTest {
     @Test
     void checkDensity() {
         CupRepository cupRepository = mock(CupRepository.class);
-        ConsoleUtils consoleUtils = mock(ConsoleUtils.class);
 
-        CupService cupService = new CupService(cupRepository, consoleUtils);
+        CupService cupService = new CupService(cupRepository);
         cupService.createCup(FactoryType.PARALLELEPIPED, 10, 10);
         cupService.addLiquid(LiquidType.OIL, 250.0);
         cupService.addLiquid(LiquidType.CREAM, 150.0);
@@ -46,9 +44,8 @@ class CupServiceTest {
     @Test
     void deleteMoreThanHave() {
         CupRepository cupRepository = mock(CupRepository.class);
-        ConsoleUtils consoleUtils = mock(ConsoleUtils.class);
 
-        CupService cupService = new CupService(cupRepository, consoleUtils);
+        CupService cupService = new CupService(cupRepository);
         cupService.createCup(FactoryType.CYLINDER, 10, 10);
         cupService.addLiquid(LiquidType.CREAM, 150.0);
         cupService.addLiquid(LiquidType.OIL, 150.0);
@@ -59,9 +56,8 @@ class CupServiceTest {
     @Test
     void changeCupToLessSize() {
         CupRepository cupRepository = mock(CupRepository.class);
-        ConsoleUtils consoleUtils = mock(ConsoleUtils.class);
 
-        CupService cupService = new CupService(cupRepository, consoleUtils);
+        CupService cupService = new CupService(cupRepository);
         cupService.createCup(FactoryType.CYLINDER, 10, 10);
         cupService.addLiquid(LiquidType.CREAM, 150.0);
         cupService.addLiquid(LiquidType.OIL, 150.0);
@@ -73,23 +69,17 @@ class CupServiceTest {
     void mockitoTest() {
         CupRepository cupRepository = mock(CupRepository.class);
         ConsoleUtils consoleUtils = mock(ConsoleUtils.class);
-        CupService cupService = new CupService(cupRepository, consoleUtils);
-        AddLiquidCommand addLiquidCommand = mock(AddLiquidCommand.class);
+        CupService cupService = new CupService(cupRepository);
+        AddLiquidCommand addLiquidCommand = new AddLiquidCommand(cupService, consoleUtils);
 
-        LiquidType liquidType = LiquidType.CREAM;
-        Cup cup = new Parallelepiped(5, 10);
-        double choice = 50.0;
+        when(cupRepository.getCup()).thenReturn(new Parallelepiped(5, 10));
+        when(consoleUtils.validateIntToValue(List.of(LiquidType.values()).size())).thenReturn(1);
+        when(consoleUtils.validateDouble()).thenReturn(50.0);
 
-        //when(new AddLiquidCommand(cupService)).thenReturn()
-        when(addLiquidCommand.getLiquidType(List.of(LiquidType.values()))).thenReturn(liquidType);
-        when(cupService.getConsoleUtils().validateDouble()).thenReturn(choice);
-        when(cupService.createCup(FactoryType.PARALLELEPIPED, 5, 10)).thenReturn(cup);
-
-        cupService.createCup(FactoryType.PARALLELEPIPED, 5, 10);
         addLiquidCommand.execute();
 
         assertEquals(50.0, cupService.getCup().getLiquid().stream()
-                .filter(l -> l.getLiquidType().getDensity() == 940)
+                .filter(l -> l.getLiquidType().equals(LiquidType.WATER))
                 .findFirst()
                 .get()
                 .getVolume());
