@@ -7,12 +7,12 @@ public class Liquid {
     private final LiquidType liquidType;
     private double volume;
 
-    public Liquid(LiquidType liquidType, Double volume) {
+    public Liquid(LiquidType liquidType, double volume) {
         this.liquidType = liquidType;
         this.volume = volume;
     }
 
-    public Double getVolume() {
+    public double getVolume() {
         BigDecimal shortVolume = new BigDecimal(volume);
         shortVolume = shortVolume.setScale(3, RoundingMode.HALF_UP);
         return shortVolume.doubleValue();
@@ -22,7 +22,7 @@ public class Liquid {
         this.volume += volume;
     }
 
-    public void setVolume(Double volume) {
+    public void setVolume(double volume) {
         this.volume = volume;
     }
 

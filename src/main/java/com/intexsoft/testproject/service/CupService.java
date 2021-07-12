@@ -22,7 +22,7 @@ public class CupService {
         return cupRepository.createCup(factoryType.getCupFactory(), width, height);
     }
 
-    public void addLiquid(LiquidType liquidType, Double volume) {
+    public void addLiquid(LiquidType liquidType, double volume) {
         Cup cup = getCup();
         Set<Liquid> currentCupLiquid = cup.getLiquid();
 
@@ -38,13 +38,10 @@ public class CupService {
             currentCupLiquid.add(liquid);
         }
 
-        //trimToCapacity(currentCupLiquid, cup.getCapacity());
-
-        double volumeToDelete = usedCapacity(currentCupLiquid) - cup.getCapacity();
-        deleteLiquid(currentCupLiquid, volumeToDelete);
+        trimToCapacity(currentCupLiquid, cup.getCapacity());
     }
 
-    public void deleteLiquid(Double volumeToDelete) {
+    public void deleteLiquid(double volumeToDelete) {
         Set<Liquid> currentLiquid = getCup().getLiquid();
         deleteLiquid(currentLiquid, volumeToDelete);
     }
@@ -132,8 +129,8 @@ public class CupService {
         }
     }
 
-    public Double usedCapacity(Set<Liquid> currentLiquid) {
-        Double generalLiquidInCup = 0.0;
+    public double usedCapacity(Set<Liquid> currentLiquid) {
+        double generalLiquidInCup = 0.0;
         for (Liquid liquid : currentLiquid) {
             generalLiquidInCup += liquid.getVolume();
         }
