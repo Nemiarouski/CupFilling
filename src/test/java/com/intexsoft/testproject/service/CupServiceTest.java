@@ -7,6 +7,7 @@ import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.utils.LiquidComparator;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -69,8 +70,8 @@ class CupServiceTest {
         liquids.add(new Liquid(LiquidType.CREAM, 200));
         liquids.add(new Liquid(LiquidType.WATER, 300));
 
-        when(cupService.getCup().getLiquid()).thenReturn(cupService.getCup().getLiquid());
-        assertEquals(liquids.stream().findFirst().get().getVolume(), cupService.getCup().getLiquid().stream().findFirst().get().getVolume());
+        when(cupService.getCup().getLiquid()).thenReturn(liquids);
+        assertEquals(liquids, cupService.getCup().getLiquid());
 
     }
 }
