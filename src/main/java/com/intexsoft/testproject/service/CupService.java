@@ -5,6 +5,7 @@ import com.intexsoft.testproject.entity.cupfactory.FactoryType;
 import com.intexsoft.testproject.entity.liquids.Liquid;
 import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.repository.CupRepository;
+import com.intexsoft.testproject.utils.ConsoleUtils;
 import com.intexsoft.testproject.utils.LiquidComparator;
 import java.io.IOException;
 import java.util.Optional;
@@ -12,7 +13,17 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class CupService {
-    private final CupRepository cupRepository = new CupRepository();
+    private final CupRepository cupRepository;
+    private final ConsoleUtils consoleUtils;
+
+    public CupService(CupRepository cupRepository, ConsoleUtils consoleUtils) {
+        this.cupRepository = cupRepository;
+        this.consoleUtils = consoleUtils;
+    }
+
+    public ConsoleUtils getConsoleUtils() {
+        return consoleUtils;
+    }
 
     public Cup getCup() {
         return cupRepository.getCup();
@@ -21,6 +32,13 @@ public class CupService {
     public Cup createCup(FactoryType factoryType, Integer width, Integer height) {
         return cupRepository.createCup(factoryType.getCupFactory(), width, height);
     }
+
+/*    public Cup addLiquid(Long cupId, LiquidType liquidType, double volume) {
+        Cup cup = cupRepository.getCupById(cupId);
+        cup.addLiquid(liquidType, volume);
+        cupRepository.save(cup);
+        return cup;
+    }*/
 
     public synchronized void addLiquid(LiquidType liquidType, double volume) {
         Cup cup = getCup();

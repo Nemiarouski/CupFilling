@@ -2,7 +2,6 @@ package com.intexsoft.testproject.commands;
 
 import com.intexsoft.testproject.entity.cup.Cup;
 import com.intexsoft.testproject.service.CupService;
-import com.intexsoft.testproject.utils.ConsoleUtils;
 
 public class DeleteLiquidCommand implements Command {
     private final CupService cupService;
@@ -14,7 +13,7 @@ public class DeleteLiquidCommand implements Command {
     @Override
     public String execute() {
         System.out.println("How much liquid to delete:");
-        double volumeToDelete = ConsoleUtils.validateDouble();
+        double volumeToDelete = cupService.getConsoleUtils().validateDouble();
 
         Cup cup = cupService.getCup();
         if (!cup.getLiquid().isEmpty()) {

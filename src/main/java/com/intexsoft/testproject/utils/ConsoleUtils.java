@@ -3,13 +3,9 @@ package com.intexsoft.testproject.utils;
 import java.util.Scanner;
 
 public class ConsoleUtils {
-    private final static Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
-    public static String read() {
-        return scanner.nextLine();
-    }
-
-    public static int validateIntToValue(int value) {
+    public int validateIntToValue(int value) {
         int inputNumber;
         do {
             System.out.println("[INFO]: Input number 1-" + value + ":");
@@ -23,7 +19,7 @@ public class ConsoleUtils {
     }
 
 
-    public static int validateInt() {
+    public int validateInt() {
         int inputNumber;
         do {
             System.out.println("[INFO]: Input positive number:");
@@ -36,7 +32,7 @@ public class ConsoleUtils {
         return inputNumber;
     }
 
-    public static double validateDouble() {
+    public double validateDouble() {
         double inputNumber;
         do {
             System.out.println("[INFO]: Input positive number:");

@@ -2,7 +2,6 @@ package com.intexsoft.testproject.commands;
 
 import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.service.CupService;
-import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.List;
 
 public class AddLiquidCommand implements Command {
@@ -22,14 +21,14 @@ public class AddLiquidCommand implements Command {
         LiquidType liquidType = getLiquidType(liquidTypes);
 
         System.out.println("How much liquid to add?");
-        double volume = ConsoleUtils.validateDouble();
+        double volume = cupService.getConsoleUtils().validateDouble();
 
         cupService.addLiquid(liquidType, volume);
         return "work";
     }
 
-    private LiquidType getLiquidType(List<LiquidType> liquidTypes) {
-        int choice = ConsoleUtils.validateIntToValue(liquidTypes.size());
+    public LiquidType getLiquidType(List<LiquidType> liquidTypes) {
+        int choice = cupService.getConsoleUtils().validateIntToValue(liquidTypes.size());
         return liquidTypes.get(choice - 1);
     }
 

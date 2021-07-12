@@ -2,6 +2,7 @@ package com.intexsoft.testproject.application;
 
 import com.intexsoft.testproject.commands.*;
 import com.intexsoft.testproject.interpreter.Interpreter;
+import com.intexsoft.testproject.repository.CupRepository;
 import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.ArrayList;
@@ -11,7 +12,9 @@ public class Menu {
     private final List<Command> menuCommands = new ArrayList<>();
     private final List<Command> startCommands = new ArrayList<>();
     private final Interpreter interpreter = new Interpreter();
-    private final CupService cupService = new CupService();
+    private final ConsoleUtils consoleUtils = new ConsoleUtils();
+    private final CupRepository cupRepository = new CupRepository();
+    private final CupService cupService = new CupService(cupRepository, consoleUtils);
 
     public void startMenu() {
         fillStartCommands();
@@ -47,7 +50,7 @@ public class Menu {
         String result;
         do {
             showMenu();
-            choice = ConsoleUtils.validateIntToValue(menuCommands.size());
+            choice = consoleUtils.validateIntToValue(menuCommands.size());
             result = interpreter.start(menuCommands.get(choice - 1));
         } while (!result.equals("exit"));
     }
