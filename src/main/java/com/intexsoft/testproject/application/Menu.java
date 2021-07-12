@@ -22,12 +22,12 @@ public class Menu {
 
     public void fillMainCommands() {
         addCommand(menuCommands, new AddLiquidCommand(cupService));
+        addCommand(menuCommands, new AddConcurrencyLiquidCommand(cupService));
         addCommand(menuCommands, new DeleteLiquidCommand(cupService));
         addCommand(menuCommands, new ShowInformationCommand(cupService));
         addCommand(menuCommands, new CreateNewCupCommand(cupService));
         addCommand(menuCommands, new SaveCupCommand(cupService));
         addCommand(menuCommands, new DownloadCupCommand(cupService));
-        addCommand(menuCommands, new AddConcurrencyLiquidCommand(cupService));
         addCommand(menuCommands, new ExitCommand());
     }
 

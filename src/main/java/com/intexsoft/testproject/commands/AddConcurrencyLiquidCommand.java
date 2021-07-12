@@ -48,16 +48,18 @@ public class AddConcurrencyLiquidCommand implements Command {
     }
 
     private List<LiquidType> multiplyChoice(List<LiquidType> liquidTypes) {
+        List<LiquidType> liquidsToAdd = new ArrayList<>();
+
         System.out.println("How many times to add?");
         int count = ConsoleUtils.validateInt();
-        List<LiquidType> liquids = new ArrayList<>();
+
         while (count > 0) {
             System.out.println("Choose the type of liquid:");
             LiquidType liquidType = getLiquidType(liquidTypes);
-            liquids.add(liquidType);
+            liquidsToAdd.add(liquidType);
             count--;
         }
-        return liquids;
+        return liquidsToAdd;
     }
 
     private LiquidType getLiquidType(List<LiquidType> liquidTypes) {
