@@ -61,7 +61,10 @@ class CupServiceTest {
         CupService cupService = mock(CupService.class);
 
         when(cupService.createCup(FactoryType.PARALLELEPIPED, 5, 10)).thenReturn(new Parallelepiped(5, 10));
-        cupService.createCup(FactoryType.PARALLELEPIPED, 5,10);
+        when(cupService.getCup().getCapacity()).thenReturn(500.0);
+        assertEquals(500.0, cupService.getCup().getCapacity());
+
+        //cupService.createCup(FactoryType.PARALLELEPIPED, 5,10);
 
         cupService.addLiquid(LiquidType.CREAM, 400);
         cupService.addLiquid(LiquidType.WATER, 300);
