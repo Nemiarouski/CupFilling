@@ -1,7 +1,6 @@
 package com.intexsoft.testproject.commands;
 
 import com.intexsoft.testproject.entity.liquids.LiquidType;
-import com.intexsoft.testproject.concurrency.AddLiquidRunnable;
 import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class AddConcurrencyLiquidCommand implements Command {
         ExecutorService service = Executors.newFixedThreadPool(count);
 
         for (LiquidType liquidType : liquidsToAdd) {
-            service.submit(new AddLiquidRunnable(cupService, liquidType, volume));
+            service.submit(() -> cupService.addLiquid(liquidType, volume));
         }
 
         service.shutdown();
