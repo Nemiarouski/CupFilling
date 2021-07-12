@@ -27,6 +27,7 @@ public class Menu {
         addCommand(menuCommands, new CreateNewCupCommand(cupService));
         addCommand(menuCommands, new SaveCupCommand(cupService));
         addCommand(menuCommands, new DownloadCupCommand(cupService));
+        addCommand(menuCommands, new AddConcurrencyLiquidCommand(cupService));
         addCommand(menuCommands, new ExitCommand());
     }
 

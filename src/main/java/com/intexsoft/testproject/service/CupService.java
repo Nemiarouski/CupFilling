@@ -22,7 +22,7 @@ public class CupService {
         return cupRepository.createCup(factoryType.getCupFactory(), width, height);
     }
 
-    public void addLiquid(LiquidType liquidType, double volume) {
+    public synchronized void addLiquid(LiquidType liquidType, double volume) {
         Cup cup = getCup();
         Set<Liquid> currentCupLiquid = cup.getLiquid();
 
