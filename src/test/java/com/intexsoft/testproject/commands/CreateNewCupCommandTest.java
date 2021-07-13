@@ -36,7 +36,5 @@ class CreateNewCupCommandTest {
 
         createNewCupCommand.execute();
         assertEquals(250, cupService.usedCapacity(cupService.getCup().getLiquid()));
-        //assertEquals(250, cupService.getCup().getCapacity());
-
     }
 }
