@@ -4,8 +4,8 @@ import com.intexsoft.testproject.commands.Command;
 
 public class Interpreter {
 
-    public String start(Command command) {
+    public void start(Command command) {
         command.show();
-        return command.execute();
+        command.execute();
     }
 }

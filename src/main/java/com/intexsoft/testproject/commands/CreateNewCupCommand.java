@@ -16,7 +16,12 @@ public class CreateNewCupCommand implements Command {
     }
 
     @Override
-    public String execute() {
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
         List<FactoryType> factories = List.of(FactoryType.values());
 
         showCupTypes(factories);
@@ -37,7 +42,6 @@ public class CreateNewCupCommand implements Command {
         } else {
             cupService.changeCup(cup, factoryType, width, height);
         }
-        return "work";
     }
 
     private FactoryType getFactoryType(List<FactoryType> factories) {

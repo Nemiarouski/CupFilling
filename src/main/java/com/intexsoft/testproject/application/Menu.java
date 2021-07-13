@@ -23,7 +23,7 @@ public class Menu {
         startApp();
     }
 
-    public void fillMainCommands() {
+    private void fillMainCommands() {
         addCommand(menuCommands, new AddLiquidCommand(cupService, consoleUtils));
         addCommand(menuCommands, new AddConcurrencyLiquidCommand(cupService, consoleUtils));
         addCommand(menuCommands, new DeleteLiquidCommand(cupService, consoleUtils));
@@ -34,34 +34,32 @@ public class Menu {
         addCommand(menuCommands, new ExitCommand());
     }
 
-    public void fillStartCommands() {
+    private void fillStartCommands() {
         addCommand(startCommands, new StartCommand());
         addCommand(startCommands, new CreateNewCupCommand(cupService, consoleUtils));
     }
 
-    public void initCup() {
+    private void initCup() {
         for (Command command : startCommands) {
             interpreter.start(command);
         }
     }
 
-    public void startApp() {
+    private void startApp() {
         int choice;
-        String result;
         do {
             showMenu();
             choice = consoleUtils.validateIntToValue(menuCommands.size());
-            result = interpreter.start(menuCommands.get(choice - 1));
-        } while (!result.equals("exit"));
+        } while (!menuCommands.get(choice - 1).flag().equals(CommandType.EXIT));
     }
 
-    public void showMenu() {
+    private void showMenu() {
         for (int i = 0; i < menuCommands.size(); i++) {
             System.out.println((i + 1) + ") " + menuCommands.get(i).name());
         }
     }
 
-    public void addCommand(List<Command> commands, Command command) {
+    private void addCommand(List<Command> commands, Command command) {
         commands.add(command);
     }
 }

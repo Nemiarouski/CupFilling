@@ -3,8 +3,12 @@ package com.intexsoft.testproject.commands;
 public class ExitCommand implements Command {
 
     @Override
-    public String execute() {
-        return "exit";
+    public CommandType flag() {
+        return CommandType.EXIT;
+    }
+
+    @Override
+    public void execute() {
     }
 
     @Override

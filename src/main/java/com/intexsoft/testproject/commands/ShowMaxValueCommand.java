@@ -13,7 +13,12 @@ public class ShowMaxValueCommand implements Command {
     }
 
     @Override
-    public String execute() {
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
         Optional<Liquid> maxValue = cupService.getCup().getLiquid().stream()
                 .max(Comparator.comparing(Liquid::getVolume));
 
@@ -22,7 +27,6 @@ public class ShowMaxValueCommand implements Command {
         } else {
             System.out.println("Cup is empty.");
         }
-        return "work";
     }
 
     @Override

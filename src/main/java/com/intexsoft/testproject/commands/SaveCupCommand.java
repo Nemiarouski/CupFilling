@@ -10,9 +10,13 @@ public class SaveCupCommand implements Command {
     }
 
     @Override
-    public String execute() {
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
        cupService.save();
-       return "work";
     }
 
     @Override

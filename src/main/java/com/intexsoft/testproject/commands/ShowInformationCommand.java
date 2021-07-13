@@ -14,13 +14,17 @@ public class ShowInformationCommand implements Command {
     }
 
     @Override
-    public String execute() {
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
         for (int i = 0; i < showCommands.size(); i++) {
             System.out.println((i + 1) + ") " + showCommands.get(i).name());
         }
         int choice = consoleUtils.validateIntToValue(showCommands.size());
         showCommands.get(choice - 1).execute();
-        return "work";
     }
 
     @Override

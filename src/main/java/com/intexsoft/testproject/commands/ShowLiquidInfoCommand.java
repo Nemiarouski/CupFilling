@@ -13,7 +13,12 @@ public class ShowLiquidInfoCommand implements Command {
     }
 
     @Override
-    public String execute() {
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
         Set<Liquid> setLiquid = cupService.getCup().getLiquid();
 
         if (setLiquid.size() != 0) {
@@ -23,7 +28,6 @@ public class ShowLiquidInfoCommand implements Command {
         } else {
             System.out.println("Cup is empty.");
         }
-        return "work";
     }
 
     @Override

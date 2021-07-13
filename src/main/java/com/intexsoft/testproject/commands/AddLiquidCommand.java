@@ -15,7 +15,12 @@ public class AddLiquidCommand implements Command {
     }
 
     @Override
-    public String execute() {
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
         List<LiquidType> liquidTypes = List.of(LiquidType.values());
 
         showLiquidTypes(liquidTypes);
@@ -27,10 +32,9 @@ public class AddLiquidCommand implements Command {
         double volume = consoleUtils.validateDouble();
 
         cupService.addLiquid(liquidType, volume);
-        return "work";
     }
 
-    LiquidType getLiquidType(List<LiquidType> liquidTypes) {
+    private LiquidType getLiquidType(List<LiquidType> liquidTypes) {
         int choice = consoleUtils.validateIntToValue(liquidTypes.size());
         return liquidTypes.get(choice - 1);
     }

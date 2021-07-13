@@ -14,7 +14,12 @@ public class DeleteLiquidCommand implements Command {
     }
 
     @Override
-    public String execute() {
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
         System.out.println("How much liquid to delete:");
         double volumeToDelete = consoleUtils.validateDouble();
 
@@ -26,7 +31,6 @@ public class DeleteLiquidCommand implements Command {
         } else {
             System.out.println("Cup is empty.");
         }
-        return "work";
     }
 
     @Override

@@ -3,8 +3,12 @@ package com.intexsoft.testproject.commands;
 public class StartCommand implements Command {
 
     @Override
-    public String execute() {
-        return "start";
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
     }
 
     @Override

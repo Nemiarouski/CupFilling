@@ -18,7 +18,12 @@ public class AddConcurrencyLiquidCommand implements Command {
     }
 
     @Override
-    public String execute() {
+    public CommandType flag() {
+        return CommandType.WORK;
+    }
+
+    @Override
+    public void execute() {
         List<LiquidType> liquidTypes = List.of(LiquidType.values());
 
         List<LiquidType> liquidsToAdd = multiplyChoice(liquidTypes);
@@ -27,10 +32,9 @@ public class AddConcurrencyLiquidCommand implements Command {
         double volume = consoleUtils.validateDouble();
 
         addConcurrencyLiquid(volume, liquidsToAdd);
-        return "work";
     }
 
-    public void addConcurrencyLiquid (double volume, List<LiquidType> liquidsToAdd) {
+    private void addConcurrencyLiquid (double volume, List<LiquidType> liquidsToAdd) {
         int count = liquidsToAdd.size();
         ExecutorService service = Executors.newFixedThreadPool(count);
 
