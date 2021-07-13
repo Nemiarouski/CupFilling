@@ -22,12 +22,9 @@ class DeleteLiquidCommandTest {
         DeleteLiquidCommand deleteLiquidCommand = new DeleteLiquidCommand(cupService, consoleUtils);
 
         when(consoleUtils.validateDouble()).thenReturn(50.0);
-        Cup cup = new Parallelepiped(5, 10);
-        when(cupService.getCup()).thenReturn(cup);
+        when(cupService.getCup()).thenReturn(new Parallelepiped(5, 10));
 
-        Set<Liquid> currentLiquid = Set.of(new Liquid(LiquidType.WATER, 150));
-
-        when(cupRepository.getCup().getLiquid()).thenReturn(currentLiquid);
+        when(cupRepository.getCup().getLiquid()).thenReturn(Set.of(new Liquid(LiquidType.WATER, 150)));
 
         deleteLiquidCommand.execute();
     }
