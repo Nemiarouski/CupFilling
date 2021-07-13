@@ -1,16 +1,11 @@
 package com.intexsoft.testproject.commands;
 
-import com.intexsoft.testproject.entity.cup.Cup;
 import com.intexsoft.testproject.entity.cup.Parallelepiped;
-import com.intexsoft.testproject.entity.liquids.Liquid;
 import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.repository.CupRepository;
 import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
-import com.intexsoft.testproject.utils.LiquidComparator;
 import org.junit.jupiter.api.Test;
-import java.util.Set;
-import java.util.TreeSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
