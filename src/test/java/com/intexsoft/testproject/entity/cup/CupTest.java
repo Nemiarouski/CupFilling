@@ -6,7 +6,6 @@ import com.intexsoft.testproject.repository.CupRepository;
 import com.intexsoft.testproject.service.CupService;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
 
 class CupTest {
 
@@ -18,9 +17,9 @@ class CupTest {
 
     @Test
     void addLiquid() {
-        CupRepository cupRepository = mock(CupRepository.class);
-
+        CupRepository cupRepository = new CupRepository();
         CupService cupService = new CupService(cupRepository);
+
         cupService.createCup(FactoryType.PARALLELEPIPED, 10, 10);
         cupService.addLiquid(LiquidType.CREAM, 50.0);
         cupService.addLiquid(LiquidType.WATER, 350.0);
