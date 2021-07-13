@@ -50,6 +50,7 @@ public class Menu {
         do {
             showMenu();
             choice = consoleUtils.validateIntToValue(menuCommands.size());
+            interpreter.start(menuCommands.get(choice - 1));
         } while (!menuCommands.get(choice - 1).flag().equals(CommandType.EXIT));
     }
 
