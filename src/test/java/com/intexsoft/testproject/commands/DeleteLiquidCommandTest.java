@@ -7,8 +7,11 @@ import com.intexsoft.testproject.entity.liquids.LiquidType;
 import com.intexsoft.testproject.repository.CupRepository;
 import com.intexsoft.testproject.service.CupService;
 import com.intexsoft.testproject.utils.ConsoleUtils;
+import com.intexsoft.testproject.utils.LiquidComparator;
 import org.junit.jupiter.api.Test;
 import java.util.Set;
+import java.util.TreeSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -21,11 +24,14 @@ class DeleteLiquidCommandTest {
         CupService cupService = new CupService(cupRepository);
         DeleteLiquidCommand deleteLiquidCommand = new DeleteLiquidCommand(cupService, consoleUtils);
 
-        when(consoleUtils.validateDouble()).thenReturn(50.0);
-        when(cupService.getCup()).thenReturn(new Parallelepiped(5, 10));
+        when(consoleUtils.validateDouble()).thenReturn(170.0);
+        when(cupRepository.getCup()).thenReturn(new Parallelepiped(10, 10));
 
-        when(cupRepository.getCup().getLiquid()).thenReturn(Set.of(new Liquid(LiquidType.WATER, 150)));
+        cupService.addLiquid(LiquidType.WATER, 150);
+        cupService.addLiquid(LiquidType.OIL, 150);
 
         deleteLiquidCommand.execute();
+
+        assertEquals(130.0, cupService.usedCapacity(cupService.getCup().getLiquid()));
     }
 }
