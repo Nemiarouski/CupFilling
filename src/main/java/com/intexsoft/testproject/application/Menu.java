@@ -47,11 +47,13 @@ public class Menu {
 
     private void startApp() {
         int choice;
+        Command command;
         do {
             showMenu();
             choice = consoleUtils.validateIntToValue(menuCommands.size());
-            interpreter.start(menuCommands.get(choice - 1));
-        } while (!menuCommands.get(choice - 1).flag().equals(CommandType.EXIT));
+            command = menuCommands.get(choice - 1);
+            interpreter.start(command);
+        } while (!command.flag().equals(CommandType.EXIT));
     }
 
     private void showMenu() {

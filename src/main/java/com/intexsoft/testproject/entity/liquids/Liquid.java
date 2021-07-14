@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class Liquid {
-    private final LiquidType liquidType;
+    private LiquidType liquidType;
     private double volume;
 
+    public Liquid() {}
     public Liquid(LiquidType liquidType, double volume) {
         this.liquidType = liquidType;
         this.volume = volume;
